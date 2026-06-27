@@ -1,3 +1,6 @@
 .env
 node_modules/
 npm-debug.log*
+timer-state.json
+timer-tables.json
+backups/

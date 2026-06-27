@@ -2,6 +2,12 @@ const fs = require("fs");
 const path = require("path");
 const discord = require("discord.js");
 const Client = discord.Client ?? discord.default?.Client;
+const {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  StringSelectMenuBuilder,
+} = discord;
 
 const GatewayIntentBits = discord.GatewayIntentBits ?? null;
 const IntentsFlags = discord.Intents && discord.Intents.FLAGS ? discord.Intents.FLAGS : null;
@@ -25,6 +31,8 @@ require("dotenv").config();
 const TOKEN = process.env.DISCORD_TOKEN;
 const PREFIX = "!timer";
 const STATE_FILE = path.join(__dirname, "..", "timer-state.json");
+const TABLES_FILE = path.join(__dirname, "..", "timer-tables.json");
+const TABLE_BACKUP_DIR = path.join(__dirname, "..", "backups", "tables");
 
 if (!TOKEN) {
   console.error("Missing DISCORD_TOKEN in environment.");
@@ -37,6 +45,7 @@ function loadState() {
       running: false,
       startedAtMs: null,
       accumulatedMs: 0,
+      sessionStartedAtMs: null,
       timerName: null,
     };
   }
@@ -48,6 +57,7 @@ function loadState() {
       running: Boolean(state.running),
       startedAtMs: typeof state.startedAtMs === "number" ? state.startedAtMs : null,
       accumulatedMs: Number.isFinite(state.accumulatedMs) ? state.accumulatedMs : 0,
+      sessionStartedAtMs: typeof state.sessionStartedAtMs === "number" ? state.sessionStartedAtMs : null,
       timerName: typeof state.timerName === "string" && state.timerName.trim() ? state.timerName.trim() : null,
     };
   } catch {
@@ -55,6 +65,7 @@ function loadState() {
       running: false,
       startedAtMs: null,
       accumulatedMs: 0,
+      sessionStartedAtMs: null,
       timerName: null,
     };
   }
@@ -62,6 +73,102 @@ function loadState() {
 
 function saveState(state) {
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
+}
+
+function loadTables() {
+  if (!fs.existsSync(TABLES_FILE)) {
+    return { tables: {} };
+  }
+
+  try {
+    const raw = fs.readFileSync(TABLES_FILE, "utf8");
+    const data = JSON.parse(raw);
+    const sourceTables = data && typeof data.tables === "object" && data.tables !== null ? data.tables : {};
+    const tables = {};
+
+    for (const [name, table] of Object.entries(sourceTables)) {
+      const normalizedName = sanitizeTimerName(name);
+      if (!normalizedName) {
+        continue;
+      }
+
+      const timers = Array.isArray(table?.timers)
+        ? table.timers
+            .map((record) => ({
+              timerName: sanitizeTimerName(record?.timerName) || "Timer",
+              startedAtMs: Number.isFinite(record?.startedAtMs) ? record.startedAtMs : null,
+              stoppedAtMs: Number.isFinite(record?.stoppedAtMs) ? record.stoppedAtMs : null,
+              durationMs: Number.isFinite(record?.durationMs) ? record.durationMs : 0,
+            }))
+            .filter((record) => record.startedAtMs !== null && record.stoppedAtMs !== null)
+        : [];
+
+      tables[normalizedName] = {
+        name: normalizedName,
+        createdAtMs: Number.isFinite(table?.createdAtMs) ? table.createdAtMs : Date.now(),
+        timers,
+      };
+    }
+
+    return { tables };
+  } catch {
+    return { tables: {} };
+  }
+}
+
+function saveTables(tableStore) {
+  fs.writeFileSync(TABLES_FILE, JSON.stringify(tableStore, null, 2));
+}
+
+function formatBackupDate(date) {
+  const year = String(date.getFullYear());
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function backupTablesSnapshot() {
+  try {
+    if (!fs.existsSync(TABLES_FILE)) {
+      return false;
+    }
+
+    fs.mkdirSync(TABLE_BACKUP_DIR, { recursive: true });
+
+    const backupDate = formatBackupDate(new Date());
+    const backupFile = path.join(TABLE_BACKUP_DIR, `timer-tables-${backupDate}.json`);
+    const source = fs.readFileSync(TABLES_FILE, "utf8");
+    fs.writeFileSync(backupFile, source);
+
+    console.log(`Backed up tables to ${backupFile}`);
+    return true;
+  } catch (error) {
+    console.error("Failed to back up tables:", error?.message || error);
+    return false;
+  }
+}
+
+function scheduleNightlyTableBackup() {
+  const now = new Date();
+  const nextRun = new Date(now);
+  nextRun.setHours(24, 0, 0, 0);
+
+  const delayMs = nextRun.getTime() - now.getTime();
+  const timeout = setTimeout(() => {
+    backupTablesSnapshot();
+
+    const interval = setInterval(() => {
+      backupTablesSnapshot();
+    }, 24 * 60 * 60 * 1000);
+
+    if (typeof interval.unref === "function") {
+      interval.unref();
+    }
+  }, delayMs);
+
+  if (typeof timeout.unref === "function") {
+    timeout.unref();
+  }
 }
 
 function getElapsedMs(state) {
@@ -181,8 +288,340 @@ function sanitizeTimerName(input) {
   return value.slice(0, 60);
 }
 
+function getTableKey(input) {
+  const value = sanitizeTimerName(input);
+  return value ? value.toLowerCase() : null;
+}
+
 function getTimerDisplayName() {
   return state.timerName || "Timer";
+}
+
+function getSessionStartedAtMs(currentState) {
+  if (typeof currentState.sessionStartedAtMs === "number") {
+    return currentState.sessionStartedAtMs;
+  }
+
+  if (currentState.running && currentState.startedAtMs !== null) {
+    return Math.max(0, currentState.startedAtMs - Math.max(0, currentState.accumulatedMs));
+  }
+
+  return null;
+}
+
+function buildTimerRecord(currentState) {
+  const stoppedAtMs = Date.now();
+  const startedAtMs = getSessionStartedAtMs(currentState) ?? stoppedAtMs;
+  const durationMs = currentState.running ? getElapsedMs(currentState) : Math.max(0, currentState.accumulatedMs);
+
+  return {
+    timerName: getTimerDisplayName(),
+    startedAtMs,
+    stoppedAtMs,
+    durationMs,
+  };
+}
+
+function formatTimerRecord(record, index) {
+  return `${String(index + 1).padStart(2, "0")}. ${record.timerName} | Started: ${formatDateDMY(record.startedAtMs)} | Stopped: ${formatDateDMY(record.stoppedAtMs)} | Duration: ${formatElapsed(record.durationMs)}`;
+}
+
+function chunkLines(lines, maxChars = 1800) {
+  const chunks = [];
+  let current = [];
+  let currentLength = 0;
+
+  for (const line of lines) {
+    const lineLength = line.length + (current.length > 0 ? 1 : 0);
+    if (currentLength + lineLength > maxChars && current.length > 0) {
+      chunks.push(current.join("\n"));
+      current = [line];
+      currentLength = line.length;
+    } else {
+      current.push(line);
+      currentLength += lineLength;
+    }
+  }
+
+  if (current.length > 0) {
+    chunks.push(current.join("\n"));
+  }
+
+  return chunks;
+}
+
+function stripOuterQuotes(input) {
+  const value = String(input || "").trim();
+  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+    return value.slice(1, -1).trim();
+  }
+  return value;
+}
+
+function getTableStore() {
+  return tables;
+}
+
+function getTableByName(tableName) {
+  const key = getTableKey(tableName);
+  if (!key) {
+    return null;
+  }
+
+  const store = getTableStore().tables;
+  if (store[key]) {
+    return store[key];
+  }
+
+  for (const table of Object.values(store)) {
+    if (typeof table?.name === "string" && table.name.toLowerCase() === key) {
+      return table;
+    }
+  }
+
+  return null;
+}
+
+function deleteTable(tableName) {
+  const key = getTableKey(tableName);
+  if (!key) {
+    return false;
+  }
+
+  const store = getTableStore().tables;
+  const table = getTableByName(tableName);
+  if (!table) {
+    return false;
+  }
+
+  for (const [storedKey, storedTable] of Object.entries(store)) {
+    if (storedTable === table || (typeof storedTable?.name === "string" && storedTable.name.toLowerCase() === key)) {
+      delete store[storedKey];
+      saveTables(getTableStore());
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function renameTable(oldName, newName) {
+  const oldKey = getTableKey(oldName);
+  const newKey = getTableKey(newName);
+  if (!oldKey || !newKey) {
+    return { ok: false, reason: "invalid" };
+  }
+
+  const store = getTableStore().tables;
+  const existing = getTableByName(oldName);
+  if (!existing) {
+    return { ok: false, reason: "missing" };
+  }
+
+  if (getTableByName(newName)) {
+    return { ok: false, reason: "exists" };
+  }
+
+  let sourceKey = null;
+  for (const [storedKey, storedTable] of Object.entries(store)) {
+    if (storedTable === existing || (typeof storedTable?.name === "string" && storedTable.name.toLowerCase() === oldKey)) {
+      sourceKey = storedKey;
+      break;
+    }
+  }
+
+  if (!sourceKey) {
+    return { ok: false, reason: "missing" };
+  }
+
+  delete store[sourceKey];
+  store[newKey] = {
+    ...existing,
+    name: newName,
+  };
+  saveTables(getTableStore());
+  return { ok: true };
+}
+
+function removeTimerFromTable(tableName, selector) {
+  const table = getTableByName(tableName);
+  if (!table) {
+    return { ok: false, reason: "missing" };
+  }
+
+  const ordered = getSortedTimersForTable(table);
+  if (ordered.length === 0) {
+    return { ok: false, reason: "empty" };
+  }
+
+  const normalizedSelector = String(selector || "").trim().toLowerCase();
+  let targetIndex = -1;
+
+  if (normalizedSelector === "last") {
+    targetIndex = ordered.length - 1;
+  } else {
+    const parsed = Number.parseInt(normalizedSelector, 10);
+    if (!Number.isInteger(parsed) || parsed < 1 || parsed > ordered.length) {
+      return { ok: false, reason: "invalid" };
+    }
+    targetIndex = parsed - 1;
+  }
+
+  const target = ordered[targetIndex];
+  const actualIndex = table.timers.findIndex((record) =>
+    record.timerName === target.timerName &&
+    record.startedAtMs === target.startedAtMs &&
+    record.stoppedAtMs === target.stoppedAtMs &&
+    record.durationMs === target.durationMs
+  );
+
+  if (actualIndex === -1) {
+    return { ok: false, reason: "missing" };
+  }
+
+  const removed = table.timers.splice(actualIndex, 1)[0];
+  saveTables(getTableStore());
+  return { ok: true, removed, position: targetIndex + 1, table };
+}
+
+function getSortedTables() {
+  return Object.values(getTableStore().tables).sort((left, right) => left.name.localeCompare(right.name));
+}
+
+function getSortedTimersForTable(table) {
+  return [...(table?.timers || [])].sort((left, right) => {
+    if (right.durationMs !== left.durationMs) {
+      return right.durationMs - left.durationMs;
+    }
+
+    return right.stoppedAtMs - left.stoppedAtMs;
+  });
+}
+
+function getTableStats(table) {
+  const timers = getSortedTimersForTable(table);
+  if (timers.length === 0) {
+    return null;
+  }
+
+  const totalDurationMs = timers.reduce((sum, record) => sum + (Number(record.durationMs) || 0), 0);
+  const slowest = timers[0];
+  const fastest = timers[timers.length - 1];
+  const averageDurationMs = Math.floor(totalDurationMs / timers.length);
+
+  return {
+    count: timers.length,
+    totalDurationMs,
+    averageDurationMs,
+    fastest,
+    slowest,
+  };
+}
+
+function formatStatsLine(label, value) {
+  return `- **${label}:** ${value}`;
+}
+
+function createTableSelectComponents(promptToken) {
+  const availableTables = getSortedTables().slice(0, 25);
+  const options = availableTables.map((table) => ({
+    label: table.name,
+    value: table.name,
+    description: `${table.timers.length} saved timer${table.timers.length === 1 ? "" : "s"}`.slice(0, 100),
+  }));
+
+  const selectMenu = new StringSelectMenuBuilder()
+    .setCustomId(`timer-table-select:${promptToken}`)
+    .setPlaceholder("Select a table to save this timer")
+    .addOptions(options);
+
+  const skipButton = new ButtonBuilder()
+    .setCustomId(`timer-table-skip:${promptToken}`)
+    .setLabel("Skip")
+    .setStyle(ButtonStyle.Secondary);
+
+  return [
+    new ActionRowBuilder().addComponents(selectMenu),
+    new ActionRowBuilder().addComponents(skipButton),
+  ];
+}
+
+const tables = loadTables();
+const pendingTablePrompts = new Map();
+
+function pauseAndPersistRunningTimer() {
+  if (!state.running || state.startedAtMs === null) {
+    return false;
+  }
+
+  state.accumulatedMs = getElapsedMs(state);
+  state.running = false;
+  state.startedAtMs = null;
+  saveState(state);
+  return true;
+}
+
+async function promptToAddTimerToTable(message, timerRecord) {
+  const availableTables = getSortedTables();
+  if (availableTables.length === 0) {
+    await message.reply("Timer saved. Create a table first with `!timer create table <name>` and then use `!timer table show <name>`.");
+    return;
+  }
+
+  const promptToken = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  pendingTablePrompts.set(promptToken, {
+    userId: message.author.id,
+    timerRecord,
+  });
+
+  const timeoutHandle = setTimeout(() => {
+    pendingTablePrompts.delete(promptToken);
+  }, 10 * 60 * 1000);
+
+  if (typeof timeoutHandle.unref === "function") {
+    timeoutHandle.unref();
+  }
+
+  await message.reply({
+    content: "Timer saved. Add this run to a table, or skip it?",
+    components: createTableSelectComponents(promptToken),
+  });
+}
+
+async function showTable(message, tableName) {
+  const normalizedName = sanitizeTimerName(stripOuterQuotes(tableName));
+  if (!normalizedName) {
+    await message.reply("Provide a table name. Example: `!timer table show Origins`.");
+    return;
+  }
+
+  const table = getTableByName(normalizedName);
+  if (!table) {
+    await message.reply("Table **" + normalizedName + "** does not exist. Create it with `!timer create table " + normalizedName + "`.");
+    return;
+  }
+
+  const timers = getSortedTimersForTable(table);
+  if (timers.length === 0) {
+    await message.reply(`Table **${table.name}** has no saved timers yet.`);
+    return;
+  }
+
+  const lines = timers.map((record, index) => formatTimerRecord(record, index));
+  const chunks = chunkLines(lines);
+
+  for (let index = 0; index < chunks.length; index += 1) {
+    const header = index === 0
+      ? [`**Table: ${table.name}**`, `Sorted by longest duration first`, ""]
+      : [];
+    const content = [...header, chunks[index]].join("\n");
+
+    if (index === 0) {
+      await message.reply(content);
+    } else {
+      await message.channel.send(content);
+    }
+  }
 }
 
 const client = new Client({
@@ -231,6 +670,8 @@ function startPresenceUpdates() {
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
+  backupTablesSnapshot();
+  scheduleNightlyTableBackup();
   startPresenceUpdates();
 });
 
@@ -240,8 +681,10 @@ client.on("messageCreate", async (message) => {
   const content = message.content.trim();
   if (!content.toLowerCase().startsWith(PREFIX)) return;
 
-  const args = content.slice(PREFIX.length).trim().split(/\s+/).filter(Boolean);
+  const commandLine = content.slice(PREFIX.length).trim();
+  const args = commandLine.split(/\s+/).filter(Boolean);
   const command = (args.shift() || "status").toLowerCase();
+  const remainingLine = commandLine.slice(command.length).trim();
 
   if (command === "help") {
     await message.reply([
@@ -249,9 +692,14 @@ client.on("messageCreate", async (message) => {
       "`!timer` or `!timer status` - show elapsed time",
       "`!timer name <map name>` - set timer/map name",
       "`!timer clearname` - clear timer/map name",
+      "`!timer create table <name>` - create a timer table",
+      "`!timer table show <name>` - show timers saved in a table",
+      "`!timer table stats <name>` - show table summary stats",
+      "`!timer table delete <name>` - delete a table",
+      "`!timer table rename <old> <new>` - rename a table",
+      "`!timer table remove <name> <last|index>` - remove a saved timer from a table",
+      "`!timer backup now` - back up tables immediately",
       "`!timer start` - start from 00:00:00",
-      "`!timer start 2d4h30m` - start as if it began that long ago",
-      "`!timer startat 25-06-2026 12:00:00` - start from a specific past time",
       "`!timer startat 25-06-2026 12:00:00 Origins` - startat and set name",
       "`!timer stop` - pause timer",
       "`!timer resume` - continue after stop",
@@ -263,6 +711,185 @@ client.on("messageCreate", async (message) => {
   if (command === "status") {
     const elapsed = getElapsedMs(state);
     await message.reply(`${getTimerDisplayName()}: **${formatElapsed(elapsed)}** (${state.running ? "running" : "stopped"})`);
+    return;
+  }
+
+  if (command === "create") {
+    const createArgs = remainingLine.split(/\s+/).filter(Boolean);
+    const createSubcommand = (createArgs.shift() || "").toLowerCase();
+
+    if (createSubcommand !== "table") {
+      await message.reply("Unknown create command. Use `!timer create table <name>`.");
+      return;
+    }
+
+    const tableName = sanitizeTimerName(stripOuterQuotes(createArgs.join(" ")));
+    if (!tableName) {
+      await message.reply("Provide a table name. Example: `!timer create table Origins`.");
+      return;
+    }
+
+    const tableKey = getTableKey(tableName);
+    if (getTableStore().tables[tableKey] || getTableByName(tableName)) {
+      await message.reply(`Table **${tableName}** already exists.`);
+      return;
+    }
+
+    getTableStore().tables[tableKey] = {
+      name: tableName,
+      createdAtMs: Date.now(),
+      timers: [],
+    };
+    saveTables(getTableStore());
+
+    await message.reply(`Created table **${tableName}**.`);
+    return;
+  }
+
+  if (command === "backup") {
+    const backupSubcommand = (args.shift() || "").toLowerCase();
+
+    if (backupSubcommand !== "now") {
+      await message.reply("Usage: `!timer backup now`.");
+      return;
+    }
+
+    const succeeded = backupTablesSnapshot();
+    if (!succeeded) {
+      await message.reply("Could not create a backup right now.");
+      return;
+    }
+
+    await message.reply("Tables backed up successfully.");
+    return;
+  }
+
+  if (command === "table") {
+    const tableArgs = remainingLine.split(/\s+/).filter(Boolean);
+    const tableSubcommand = (tableArgs.shift() || "").toLowerCase();
+
+    if (tableSubcommand === "show") {
+      const tableName = tableArgs.join(" ");
+      await showTable(message, tableName);
+      return;
+    }
+
+    if (tableSubcommand === "stats") {
+      const tableName = tableArgs.join(" ");
+      const normalizedName = sanitizeTimerName(stripOuterQuotes(tableName));
+
+      if (!normalizedName) {
+        await message.reply("Usage: `!timer table stats <name>`.");
+        return;
+      }
+
+      const table = getTableByName(normalizedName);
+      if (!table) {
+        await message.reply("Table **" + normalizedName + "** was not found.");
+        return;
+      }
+
+      const stats = getTableStats(table);
+      if (!stats) {
+        await message.reply(`Table **${table.name}** has no saved timers yet.`);
+        return;
+      }
+
+      await message.reply([
+        `**Table Stats: ${table.name}**`,
+        formatStatsLine("Saved runs", stats.count),
+        formatStatsLine("Total duration", formatElapsed(stats.totalDurationMs)),
+        formatStatsLine("Average duration", formatElapsed(stats.averageDurationMs)),
+        formatStatsLine("Fastest run", `${stats.fastest.timerName} - ${formatElapsed(stats.fastest.durationMs)} (${formatDateDMY(stats.fastest.stoppedAtMs)})`),
+        formatStatsLine("Slowest run", `${stats.slowest.timerName} - ${formatElapsed(stats.slowest.durationMs)} (${formatDateDMY(stats.slowest.stoppedAtMs)})`),
+      ].join("\n"));
+      return;
+    }
+
+    if (tableSubcommand === "delete") {
+      const tableName = tableArgs.join(" ");
+      if (!tableName) {
+        await message.reply("Usage: `!timer table delete <name>`.");
+        return;
+      }
+
+      if (!deleteTable(tableName)) {
+        await message.reply(`Table **${tableName}** was not found.`);
+        return;
+      }
+
+      await message.reply(`Deleted table **${tableName}**.`);
+      return;
+    }
+
+    if (tableSubcommand === "rename") {
+      const oldName = tableArgs.shift();
+      const newName = tableArgs.join(" ");
+
+      if (!oldName || !newName) {
+        await message.reply("Usage: `!timer table rename <old name> <new name>`.");
+        return;
+      }
+
+      const result = renameTable(oldName, newName);
+      if (!result.ok) {
+        if (result.reason === "exists") {
+          await message.reply(`A table named **${newName}** already exists.`);
+          return;
+        }
+
+        await message.reply(`Table **${oldName}** was not found.`);
+        return;
+      }
+
+      await message.reply(`Renamed table **${oldName}** to **${newName}**.`);
+      return;
+    }
+
+    if (tableSubcommand === "remove") {
+      const tableName = tableArgs.shift();
+      const selector = tableArgs.join(" ");
+
+      if (!tableName || !selector) {
+        await message.reply("Usage: `!timer table remove <name> <last|index>`.");
+        return;
+      }
+
+      const result = removeTimerFromTable(tableName, selector);
+      if (!result.ok) {
+        if (result.reason === "empty") {
+          await message.reply(`Table **${tableName}** has no saved timers.`);
+          return;
+        }
+
+        if (result.reason === "invalid") {
+          await message.reply("Provide `last` or a timer position like `1`.");
+          return;
+        }
+
+        await message.reply(`Table **${tableName}** was not found.`);
+        return;
+      }
+
+      await message.reply(`Removed **${result.removed.timerName}** from **${result.table.name}**.`);
+      return;
+    }
+
+    if (tableSubcommand === "list") {
+      const tableNames = getSortedTables();
+      if (tableNames.length === 0) {
+        await message.reply("No tables exist yet. Create one with `!timer create table <name>`.");
+        return;
+      }
+
+      await message.reply([
+        "**Tables**",
+        ...tableNames.map((table) => `- ${table.name} (${table.timers.length} saved timer${table.timers.length === 1 ? "" : "s"})`),
+      ].join("\n"));
+      return;
+    }
+
+    await message.reply("Unknown table command. Use `!timer table show <name>` or `!timer table list`.");
     return;
   }
 
@@ -307,6 +934,7 @@ client.on("messageCreate", async (message) => {
       running: true,
       startedAtMs: Date.now(),
       accumulatedMs: initialMs,
+      sessionStartedAtMs: Date.now() - initialMs,
       timerName: state.timerName || null,
     };
     saveState(state);
@@ -342,6 +970,7 @@ client.on("messageCreate", async (message) => {
       running: true,
       startedAtMs: now,
       accumulatedMs: elapsed,
+      sessionStartedAtMs: startMs,
       timerName: providedName || state.timerName || null,
     };
     saveState(state);
@@ -352,18 +981,15 @@ client.on("messageCreate", async (message) => {
   }
 
   if (command === "stop") {
-    if (!state.running || state.startedAtMs === null) {
+    if (!pauseAndPersistRunningTimer()) {
       await message.reply("Timer is already stopped.");
       return;
     }
 
-    state.accumulatedMs = getElapsedMs(state);
-    state.running = false;
-    state.startedAtMs = null;
-    saveState(state);
     await updateTimerPresence();
 
     await message.reply(`Stopped **${getTimerDisplayName()}** at **${formatElapsed(state.accumulatedMs)}**.`);
+    await promptToAddTimerToTable(message, buildTimerRecord(state));
     return;
   }
 
@@ -387,6 +1013,7 @@ client.on("messageCreate", async (message) => {
       running: false,
       startedAtMs: null,
       accumulatedMs: 0,
+      sessionStartedAtMs: null,
       timerName: state.timerName || null,
     };
     saveState(state);
@@ -398,5 +1025,64 @@ client.on("messageCreate", async (message) => {
 
   await message.reply("Unknown command. Use `!timer help`.");
 });
+
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isStringSelectMenu() && !interaction.isButton()) {
+    return;
+  }
+
+  const [interactionType, promptToken] = interaction.customId.split(":");
+  if (!interactionType || !promptToken) {
+    return;
+  }
+
+  const pendingPrompt = pendingTablePrompts.get(promptToken);
+  if (!pendingPrompt) {
+    await interaction.reply({ content: "That table prompt expired.", ephemeral: true });
+    return;
+  }
+
+  if (interaction.user.id !== pendingPrompt.userId) {
+    await interaction.reply({ content: "This prompt is not for you.", ephemeral: true });
+    return;
+  }
+
+  if (interactionType === "timer-table-skip") {
+    pendingTablePrompts.delete(promptToken);
+    await interaction.update({ content: "Skipped adding the timer to a table.", components: [] });
+    return;
+  }
+
+  if (interactionType !== "timer-table-select") {
+    return;
+  }
+
+  const selectedTableName = interaction.values[0];
+  const table = getTableByName(selectedTableName);
+  if (!table) {
+    await interaction.reply({ content: "That table no longer exists.", ephemeral: true });
+    return;
+  }
+
+  table.timers.push(pendingPrompt.timerRecord);
+  saveTables(getTableStore());
+  pendingTablePrompts.delete(promptToken);
+
+  await interaction.update({
+    content: `Saved **${pendingPrompt.timerRecord.timerName}** to table **${table.name}**.`,
+    components: [],
+  });
+});
+
+function handleShutdownSignal(signal) {
+  const didPersist = pauseAndPersistRunningTimer();
+  if (didPersist) {
+    console.log(`Saved timer progress before ${signal} shutdown.`);
+  }
+  process.exit(0);
+}
+
+process.on("SIGINT", () => handleShutdownSignal("SIGINT"));
+process.on("SIGTERM", () => handleShutdownSignal("SIGTERM"));
 
 client.login(TOKEN);
