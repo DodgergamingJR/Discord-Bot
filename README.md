@@ -16,7 +16,7 @@ A simple Discord bot timer that:
 
 ## 2) Configure project
 
-1. Install Node.js 18+.
+1. Install Node.js 26+.
 2. In this folder, run:
 
 ```bash
