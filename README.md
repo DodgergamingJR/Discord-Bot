@@ -1,6 +1,6 @@
-# Discord Count-Up Timer Bot
+# Fishy Fish Bot
 
-A simple Discord bot timer that:
+A Discord bot to help with Zombie Activities that:
 - counts up in `HH:MM:SS` (and shows days when needed)
 - supports start, stop, resume, reset
 - can be backdated (for example, started 2 days ago)
@@ -41,6 +41,20 @@ In Developer Portal:
 
 ```bash
 npm start
+```
+
+## 5) Run multiple custom scripts
+
+You can add standalone scripts to the `scripts/` folder and run them without changing `package.json` each time.
+
+```bash
+npm run script -- <script-name>
+```
+
+Example:
+
+```bash
+npm run script -- example
 ```
 
 ## Commands

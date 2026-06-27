@@ -1,11 +1,13 @@
 {
-  "name": "discord-countup-timer-bot",
+  "name": "fishy-fish-bot",
   "version": "1.0.0",
-  "description": "Discord bot with a count-up timer that supports start, stop, resume, and backdating.",
-  "main": "src/index.js",
+  "description": "A Bot to help with Zombie Activities",
   "type": "commonjs",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node scripts/timer-script.js",
+    "dev": "node --watch scripts/timer-script.js",
+    "script": "node scripts/run-script.js",
+    "timer-script": "node scripts/timer-script.js"
   },
   "engines": {
     "node": ">=26.0.0"
