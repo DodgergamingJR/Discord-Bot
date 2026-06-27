@@ -71,17 +71,12 @@ function formatElapsed(ms) {
   const seconds = totalSeconds % 60;
   const totalMinutes = Math.floor(totalSeconds / 60);
   const minutes = totalMinutes % 60;
-  const totalHours = Math.floor(totalMinutes / 60);
-  const hours = totalHours % 24;
-  const days = Math.floor(totalHours / 24);
+  const hours = Math.floor(totalMinutes / 60);
 
   const hh = String(hours).padStart(2, "0");
   const mm = String(minutes).padStart(2, "0");
   const ss = String(seconds).padStart(2, "0");
 
-  if (days > 0) {
-    return `${days}d ${hh}:${mm}:${ss}`;
-  }
   return `${hh}:${mm}:${ss}`;
 }
 
@@ -116,11 +111,60 @@ function parseDurationToMs(input) {
 }
 
 function parseDateToMs(input) {
+  const normalized = String(input || "").trim();
+
+  // Supports: DD-MM-YYYY, DD/MM/YYYY, with optional HH:mm[:ss]
+  const dmyMatch = normalized.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})(?:[ T](\d{1,2})(?::(\d{1,2})(?::(\d{1,2}))?)?)?$/);
+  if (dmyMatch) {
+    const day = Number(dmyMatch[1]);
+    const month = Number(dmyMatch[2]);
+    const year = Number(dmyMatch[3]);
+    const hour = dmyMatch[4] ? Number(dmyMatch[4]) : 0;
+    const minute = dmyMatch[5] ? Number(dmyMatch[5]) : 0;
+    const second = dmyMatch[6] ? Number(dmyMatch[6]) : 0;
+
+    if (
+      month < 1 || month > 12 ||
+      day < 1 || day > 31 ||
+      hour < 0 || hour > 23 ||
+      minute < 0 || minute > 59 ||
+      second < 0 || second > 59
+    ) {
+      return null;
+    }
+
+    const date = new Date(year, month - 1, day, hour, minute, second);
+    if (
+      date.getFullYear() !== year ||
+      date.getMonth() !== month - 1 ||
+      date.getDate() !== day ||
+      date.getHours() !== hour ||
+      date.getMinutes() !== minute ||
+      date.getSeconds() !== second
+    ) {
+      return null;
+    }
+
+    return date.getTime();
+  }
+
   const ms = Date.parse(input);
   if (!Number.isFinite(ms)) {
     return null;
   }
   return ms;
+}
+
+function formatDateDMY(ms) {
+  const date = new Date(ms);
+  const dd = String(date.getDate()).padStart(2, "0");
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const yyyy = String(date.getFullYear());
+  const hh = String(date.getHours()).padStart(2, "0");
+  const min = String(date.getMinutes()).padStart(2, "0");
+  const ss = String(date.getSeconds()).padStart(2, "0");
+
+  return `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
 }
 
 const client = new Client({
@@ -149,7 +193,7 @@ client.on("messageCreate", async (message) => {
       "`!timer` or `!timer status` - show elapsed time",
       "`!timer start` - start from 00:00:00",
       "`!timer start 2d4h30m` - start as if it began that long ago",
-      "`!timer startat 2026-06-25T12:00:00Z` - start from a specific past time",
+      "`!timer startat 25-06-2026 12:00:00` - start from a specific past time",
       "`!timer stop` - pause timer",
       "`!timer resume` - continue after stop",
       "`!timer reset` - reset to 00:00:00 and stop",
@@ -190,13 +234,13 @@ client.on("messageCreate", async (message) => {
   if (command === "startat") {
     const input = args.join(" ");
     if (!input) {
-      await message.reply("Provide a date/time. Example: `!timer startat 2026-06-25T12:00:00Z`");
+      await message.reply("Provide a date/time. Example: `!timer startat 25-06-2026 12:00:00`");
       return;
     }
 
     const startMs = parseDateToMs(input);
     if (startMs === null) {
-      await message.reply("Could not parse that date/time. Use ISO format if possible.");
+      await message.reply("Could not parse that date/time. Use `DD-MM-YYYY` with optional `HH:mm:ss`.");
       return;
     }
 
@@ -210,7 +254,7 @@ client.on("messageCreate", async (message) => {
     };
     saveState(state);
 
-    await message.reply(`Started timer as if it began at **${new Date(startMs).toISOString()}**. Current: **${formatElapsed(getElapsedMs(state))}**.`);
+    await message.reply(`Started timer as if it began at **${formatDateDMY(startMs)}**. Current: **${formatElapsed(getElapsedMs(state))}**.`);
     return;
   }
 
