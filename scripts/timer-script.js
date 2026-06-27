@@ -5,12 +5,14 @@ const Client = discord.Client ?? discord.default?.Client;
 
 const GatewayIntentBits = discord.GatewayIntentBits ?? null;
 const IntentsFlags = discord.Intents && discord.Intents.FLAGS ? discord.Intents.FLAGS : null;
+const ActivityType = discord.ActivityType ?? null;
 
 const MESSAGE_CONTENT_BIT = (GatewayIntentBits && GatewayIntentBits.MessageContent) ?? (IntentsFlags && IntentsFlags.MESSAGE_CONTENT) ?? (1 << 15);
 const GUILDS_BIT = (GatewayIntentBits && GatewayIntentBits.Guilds) ?? (IntentsFlags && IntentsFlags.GUILDS) ?? (1 << 0);
 const GUILD_MESSAGES_BIT = (GatewayIntentBits && GatewayIntentBits.GuildMessages) ?? (IntentsFlags && IntentsFlags.GUILD_MESSAGES) ?? (1 << 9);
 
 const partialChannel = (discord.Partials && discord.Partials.Channel) || 'CHANNEL';
+const WATCHING_ACTIVITY = (ActivityType && ActivityType.Watching) || "WATCHING";
 
 const intentsArray = [
   GUILDS_BIT,
@@ -173,9 +175,46 @@ const client = new Client({
 });
 
 let state = loadState();
+let presenceInterval = null;
+
+async function updateTimerPresence() {
+  if (!client.user) {
+    return;
+  }
+
+  const presenceText = state.running
+    ? `Timer ${formatElapsed(getElapsedMs(state))}`
+    : "Timer stopped";
+
+  try {
+    await client.user.setPresence({
+      activities: [{ name: presenceText, type: WATCHING_ACTIVITY }],
+      status: "online",
+    });
+  } catch (error) {
+    console.error("Failed to update timer presence:", error?.message || error);
+  }
+}
+
+function startPresenceUpdates() {
+  void updateTimerPresence();
+
+  if (presenceInterval) {
+    clearInterval(presenceInterval);
+  }
+
+  presenceInterval = setInterval(() => {
+    void updateTimerPresence();
+  }, 60 * 1000);
+
+  if (typeof presenceInterval.unref === "function") {
+    presenceInterval.unref();
+  }
+}
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
+  startPresenceUpdates();
 });
 
 client.on("messageCreate", async (message) => {
@@ -226,6 +265,7 @@ client.on("messageCreate", async (message) => {
       accumulatedMs: initialMs,
     };
     saveState(state);
+    await updateTimerPresence();
 
     await message.reply(`Started timer at **${formatElapsed(getElapsedMs(state))}**.`);
     return;
@@ -253,6 +293,7 @@ client.on("messageCreate", async (message) => {
       accumulatedMs: elapsed,
     };
     saveState(state);
+    await updateTimerPresence();
 
     await message.reply(`Started timer as if it began at **${formatDateDMY(startMs)}**. Current: **${formatElapsed(getElapsedMs(state))}**.`);
     return;
@@ -268,6 +309,7 @@ client.on("messageCreate", async (message) => {
     state.running = false;
     state.startedAtMs = null;
     saveState(state);
+    await updateTimerPresence();
 
     await message.reply(`Stopped at **${formatElapsed(state.accumulatedMs)}**.`);
     return;
@@ -282,6 +324,7 @@ client.on("messageCreate", async (message) => {
     state.running = true;
     state.startedAtMs = Date.now();
     saveState(state);
+    await updateTimerPresence();
 
     await message.reply(`Resumed at **${formatElapsed(getElapsedMs(state))}**.`);
     return;
@@ -294,6 +337,7 @@ client.on("messageCreate", async (message) => {
       accumulatedMs: 0,
     };
     saveState(state);
+    await updateTimerPresence();
 
     await message.reply("Timer reset to **00:00:00** (stopped).");
     return;
