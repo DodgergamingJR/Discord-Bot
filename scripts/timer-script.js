@@ -524,6 +524,10 @@ function formatStatsLine(label, value) {
 
 function createTableSelectComponents(promptToken) {
   const availableTables = getSortedTables().slice(0, 25);
+  if (availableTables.length === 0) {
+    return [];
+  }
+
   const options = availableTables.map((table) => ({
     label: table.name,
     value: table.name,
@@ -563,11 +567,6 @@ function pauseAndPersistRunningTimer() {
 
 async function promptToAddTimerToTable(message, timerRecord) {
   const availableTables = getSortedTables();
-  if (availableTables.length === 0) {
-    await message.reply("Timer saved. Create a table first with `!timer create table <name>` and then use `!timer table show <name>`.");
-    return;
-  }
-
   const promptToken = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   pendingTablePrompts.set(promptToken, {
     userId: message.author.id,
@@ -582,9 +581,15 @@ async function promptToAddTimerToTable(message, timerRecord) {
     timeoutHandle.unref();
   }
 
+  const tableCount = availableTables.length;
+  const content = tableCount > 0
+    ? "Timer saved. Add this run to a table, or skip it?"
+    : "Timer saved. No tables exist yet. Create one with `!timer create table <name>` so this run can be added later, or skip it for now.";
+
+  const components = createTableSelectComponents(promptToken);
   await message.reply({
-    content: "Timer saved. Add this run to a table, or skip it?",
-    components: createTableSelectComponents(promptToken),
+    content,
+    components,
   });
 }
 
