@@ -932,8 +932,8 @@ client.on("messageCreate", async (message) => {
     }
 
     if (tableSubcommand === "remove") {
-      const tableName = tableArgs.shift();
-      const selector = tableArgs.join(" ");
+      const selector = (tableArgs.pop() || "").trim();
+      const tableName = tableArgs.join(" ").trim();
 
       if (!tableName || !selector) {
         await message.reply("Usage: `!timer table remove <name> <last|index>`.");
