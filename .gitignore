@@ -4,3 +4,4 @@ npm-debug.log*
 timer-state.json
 timer-tables.json
 backups/
+.log

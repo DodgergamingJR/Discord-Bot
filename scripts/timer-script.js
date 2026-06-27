@@ -47,6 +47,7 @@ function loadState() {
       accumulatedMs: 0,
       sessionStartedAtMs: null,
       timerName: null,
+      lastStoppedTimerRecord: null,
     };
   }
 
@@ -59,6 +60,14 @@ function loadState() {
       accumulatedMs: Number.isFinite(state.accumulatedMs) ? state.accumulatedMs : 0,
       sessionStartedAtMs: typeof state.sessionStartedAtMs === "number" ? state.sessionStartedAtMs : null,
       timerName: typeof state.timerName === "string" && state.timerName.trim() ? state.timerName.trim() : null,
+      lastStoppedTimerRecord: state.lastStoppedTimerRecord && typeof state.lastStoppedTimerRecord === "object"
+        ? {
+            timerName: sanitizeTimerName(state.lastStoppedTimerRecord.timerName) || "Timer",
+            startedAtMs: Number.isFinite(state.lastStoppedTimerRecord.startedAtMs) ? state.lastStoppedTimerRecord.startedAtMs : null,
+            stoppedAtMs: Number.isFinite(state.lastStoppedTimerRecord.stoppedAtMs) ? state.lastStoppedTimerRecord.stoppedAtMs : null,
+            durationMs: Number.isFinite(state.lastStoppedTimerRecord.durationMs) ? state.lastStoppedTimerRecord.durationMs : 0,
+          }
+        : null,
     };
   } catch {
     return {
@@ -67,6 +76,7 @@ function loadState() {
       accumulatedMs: 0,
       sessionStartedAtMs: null,
       timerName: null,
+      lastStoppedTimerRecord: null,
     };
   }
 }
@@ -382,6 +392,29 @@ function getTableByName(tableName) {
   return null;
 }
 
+function addRecordToTable(tableName, record) {
+  const key = getTableKey(tableName);
+  if (!key || !record) {
+    return { ok: false, reason: "invalid" };
+  }
+
+  const store = getTableStore().tables;
+  const table = getTableByName(tableName);
+  if (!table) {
+    return { ok: false, reason: "missing" };
+  }
+
+  table.timers.push({
+    timerName: sanitizeTimerName(record.timerName) || "Timer",
+    startedAtMs: Number.isFinite(record.startedAtMs) ? record.startedAtMs : Date.now(),
+    stoppedAtMs: Number.isFinite(record.stoppedAtMs) ? record.stoppedAtMs : Date.now(),
+    durationMs: Number.isFinite(record.durationMs) ? record.durationMs : 0,
+  });
+
+  saveTables(getTableStore());
+  return { ok: true, table };
+}
+
 function deleteTable(tableName) {
   const key = getTableKey(tableName);
   if (!key) {
@@ -565,6 +598,24 @@ function pauseAndPersistRunningTimer() {
   return true;
 }
 
+function getLastStoppedTimerRecord() {
+  if (!state.lastStoppedTimerRecord) {
+    return null;
+  }
+
+  const record = state.lastStoppedTimerRecord;
+  if (!record || typeof record !== "object") {
+    return null;
+  }
+
+  return {
+    timerName: sanitizeTimerName(record.timerName) || "Timer",
+    startedAtMs: Number.isFinite(record.startedAtMs) ? record.startedAtMs : null,
+    stoppedAtMs: Number.isFinite(record.stoppedAtMs) ? record.stoppedAtMs : null,
+    durationMs: Number.isFinite(record.durationMs) ? record.durationMs : 0,
+  };
+}
+
 async function promptToAddTimerToTable(message, timerRecord) {
   const availableTables = getSortedTables();
   const promptToken = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -583,14 +634,21 @@ async function promptToAddTimerToTable(message, timerRecord) {
 
   const tableCount = availableTables.length;
   const content = tableCount > 0
-    ? "Timer saved. Add this run to a table, or skip it?"
-    : "Timer saved. No tables exist yet. Create one with `!timer create table <name>` so this run can be added later, or skip it for now.";
+    ? `${message.author}, would you like to add this run to a table?`
+    : `${message.author}, no tables exist yet. Create one with \`!timer create table <name>\` so this run can be added later, or skip it for now.`;
 
   const components = createTableSelectComponents(promptToken);
-  await message.reply({
+  const payload = {
     content,
     components,
-  });
+  };
+
+  try {
+    await message.channel.send(payload);
+  } catch (error) {
+    console.error("Failed to send table prompt:", error?.message || error);
+    await message.reply(payload);
+  }
 }
 
 async function showTable(message, tableName) {
@@ -697,6 +755,7 @@ client.on("messageCreate", async (message) => {
       "`!timer` or `!timer status` - show elapsed time",
       "`!timer name <map name>` - set timer/map name",
       "`!timer clearname` - clear timer/map name",
+      "`!timer add table <name>` - add the last stopped timer to a table",
       "`!timer create table <name>` - create a timer table",
       "`!timer table show <name>` - show timers saved in a table",
       "`!timer table stats <name>` - show table summary stats",
@@ -748,6 +807,41 @@ client.on("messageCreate", async (message) => {
     saveTables(getTableStore());
 
     await message.reply(`Created table **${tableName}**.`);
+    return;
+  }
+
+  if (command === "add") {
+    const addSubcommand = (args.shift() || "").toLowerCase();
+
+    if (addSubcommand !== "table") {
+      await message.reply("Usage: `!timer add table <name>`.");
+      return;
+    }
+
+    const tableName = sanitizeTimerName(stripOuterQuotes(args.join(" ")));
+    if (!tableName) {
+      await message.reply("Provide a table name. Example: `!timer add table Origins`.");
+      return;
+    }
+
+    const lastStoppedTimerRecord = getLastStoppedTimerRecord();
+    if (!lastStoppedTimerRecord) {
+      await message.reply("There is no stopped timer saved yet. Use `!timer stop` first.");
+      return;
+    }
+
+    const result = addRecordToTable(tableName, lastStoppedTimerRecord);
+    if (!result.ok) {
+      if (result.reason === "missing") {
+        await message.reply(`Table **${tableName}** was not found.`);
+        return;
+      }
+
+      await message.reply("Could not add the last stopped timer to that table.");
+      return;
+    }
+
+    await message.reply(`Added **${lastStoppedTimerRecord.timerName}** to table **${result.table.name}**.`);
     return;
   }
 
@@ -941,6 +1035,7 @@ client.on("messageCreate", async (message) => {
       accumulatedMs: initialMs,
       sessionStartedAtMs: Date.now() - initialMs,
       timerName: state.timerName || null,
+      lastStoppedTimerRecord: state.lastStoppedTimerRecord || null,
     };
     saveState(state);
     await updateTimerPresence();
@@ -977,6 +1072,7 @@ client.on("messageCreate", async (message) => {
       accumulatedMs: elapsed,
       sessionStartedAtMs: startMs,
       timerName: providedName || state.timerName || null,
+      lastStoppedTimerRecord: state.lastStoppedTimerRecord || null,
     };
     saveState(state);
     await updateTimerPresence();
@@ -991,10 +1087,13 @@ client.on("messageCreate", async (message) => {
       return;
     }
 
+    const stoppedTimerRecord = buildTimerRecord(state);
+    state.lastStoppedTimerRecord = stoppedTimerRecord;
+    saveState(state);
     await updateTimerPresence();
 
     await message.reply(`Stopped **${getTimerDisplayName()}** at **${formatElapsed(state.accumulatedMs)}**.`);
-    await promptToAddTimerToTable(message, buildTimerRecord(state));
+    await promptToAddTimerToTable(message, stoppedTimerRecord);
     return;
   }
 
@@ -1006,6 +1105,7 @@ client.on("messageCreate", async (message) => {
 
     state.running = true;
     state.startedAtMs = Date.now();
+    state.lastStoppedTimerRecord = state.lastStoppedTimerRecord || null;
     saveState(state);
     await updateTimerPresence();
 
@@ -1020,6 +1120,7 @@ client.on("messageCreate", async (message) => {
       accumulatedMs: 0,
       sessionStartedAtMs: null,
       timerName: state.timerName || null,
+      lastStoppedTimerRecord: state.lastStoppedTimerRecord || null,
     };
     saveState(state);
     await updateTimerPresence();
