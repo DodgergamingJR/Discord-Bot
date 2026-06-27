@@ -298,6 +298,16 @@ function sanitizeTimerName(input) {
   return value.slice(0, 60);
 }
 
+function timerNamesMatch(left, right) {
+  const leftName = sanitizeTimerName(left);
+  const rightName = sanitizeTimerName(right);
+  if (!leftName || !rightName) {
+    return false;
+  }
+
+  return leftName.toLowerCase() === rightName.toLowerCase();
+}
+
 function getTableKey(input) {
   const value = sanitizeTimerName(input);
   return value ? value.toLowerCase() : null;
@@ -753,7 +763,8 @@ client.on("messageCreate", async (message) => {
       "`!timer start 2d4h30m Origins` - backdate start and set timer/map name",
       "`!timer start 2d4h30m` - backdate start using existing timer name",
       "`!timer startat 25-06-2026 12:00:00 Origins` - startat and set name",
-      "`!timer stop` - pause timer",
+      "`!timer stop` - pause current timer",
+      "`!timer stop <name>` - pause only if the running timer name matches",
       "`!timer resume` - continue after stop",
       "`!timer reset` - reset to 00:00:00 and stop",
     ].join("\n"));
@@ -1024,6 +1035,11 @@ client.on("messageCreate", async (message) => {
   }
 
   if (command === "start") {
+    if (state.running) {
+      await message.reply(`A timer is already running: **${getTimerDisplayName()}**. Stop it first with \`!timer stop ${getTimerDisplayName()}\`.`);
+      return;
+    }
+
     const compactInput = args.join("");
     const firstArg = args[0] || "";
     let initialMs = 0;
@@ -1066,6 +1082,11 @@ client.on("messageCreate", async (message) => {
   }
 
   if (command === "startat") {
+    if (state.running) {
+      await message.reply(`A timer is already running: **${getTimerDisplayName()}**. Stop it first with \`!timer stop ${getTimerDisplayName()}\`.`);
+      return;
+    }
+
     if (args.length === 0) {
       await message.reply("Provide a date/time. Example: `!timer startat 25-06-2026 12:00:00`");
       return;
@@ -1109,10 +1130,19 @@ client.on("messageCreate", async (message) => {
   }
 
   if (command === "stop") {
-    if (!pauseAndPersistRunningTimer()) {
+    const requestedName = sanitizeTimerName(args.join(" "));
+
+    if (!state.running || state.startedAtMs === null) {
       await message.reply("Timer is already stopped.");
       return;
     }
+
+    if (requestedName && !timerNamesMatch(requestedName, state.timerName)) {
+      await message.reply(`Running timer is **${getTimerDisplayName()}**, not **${requestedName}**. Use \`!timer stop ${getTimerDisplayName()}\`.`);
+      return;
+    }
+
+    pauseAndPersistRunningTimer();
 
     const stoppedTimerRecord = buildTimerRecord(state);
     state.lastStoppedTimerRecord = stoppedTimerRecord;
