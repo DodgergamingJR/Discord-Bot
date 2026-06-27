@@ -1,6 +1,23 @@
 const fs = require("fs");
 const path = require("path");
-const { Client, GatewayIntentBits } = require("discord.js");
+const discord = require("discord.js");
+const Client = discord.Client ?? discord.default?.Client;
+
+const GatewayIntentBits = discord.GatewayIntentBits ?? null;
+const IntentsFlags = discord.Intents && discord.Intents.FLAGS ? discord.Intents.FLAGS : null;
+
+const MESSAGE_CONTENT_BIT = (GatewayIntentBits && GatewayIntentBits.MessageContent) ?? (IntentsFlags && IntentsFlags.MESSAGE_CONTENT) ?? (1 << 15);
+const GUILDS_BIT = (GatewayIntentBits && GatewayIntentBits.Guilds) ?? (IntentsFlags && IntentsFlags.GUILDS) ?? (1 << 0);
+const GUILD_MESSAGES_BIT = (GatewayIntentBits && GatewayIntentBits.GuildMessages) ?? (IntentsFlags && IntentsFlags.GUILD_MESSAGES) ?? (1 << 9);
+
+const partialChannel = (discord.Partials && discord.Partials.Channel) || 'CHANNEL';
+
+const intentsArray = [
+  GUILDS_BIT,
+  GUILD_MESSAGES_BIT,
+  MESSAGE_CONTENT_BIT
+].filter(Boolean);
+
 require("dotenv").config();
 
 const TOKEN = process.env.DISCORD_TOKEN;
@@ -107,7 +124,8 @@ function parseDateToMs(input) {
 }
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+  intents: intentsArray,
+  partials: [partialChannel]
 });
 
 let state = loadState();
