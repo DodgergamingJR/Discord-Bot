@@ -37,6 +37,7 @@ function loadState() {
       running: false,
       startedAtMs: null,
       accumulatedMs: 0,
+      timerName: null,
     };
   }
 
@@ -47,12 +48,14 @@ function loadState() {
       running: Boolean(state.running),
       startedAtMs: typeof state.startedAtMs === "number" ? state.startedAtMs : null,
       accumulatedMs: Number.isFinite(state.accumulatedMs) ? state.accumulatedMs : 0,
+      timerName: typeof state.timerName === "string" && state.timerName.trim() ? state.timerName.trim() : null,
     };
   } catch {
     return {
       running: false,
       startedAtMs: null,
       accumulatedMs: 0,
+      timerName: null,
     };
   }
 }
@@ -169,6 +172,19 @@ function formatDateDMY(ms) {
   return `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
 }
 
+function sanitizeTimerName(input) {
+  const value = String(input || "").trim();
+  if (!value) {
+    return null;
+  }
+
+  return value.slice(0, 60);
+}
+
+function getTimerDisplayName() {
+  return state.timerName || "Timer";
+}
+
 const client = new Client({
   intents: intentsArray,
   partials: [partialChannel]
@@ -182,9 +198,10 @@ async function updateTimerPresence() {
     return;
   }
 
+  const timerLabel = getTimerDisplayName();
   const presenceText = state.running
-    ? `Timer ${formatElapsed(getElapsedMs(state))}`
-    : "Timer stopped";
+    ? `${timerLabel} ${formatElapsed(getElapsedMs(state))}`
+    : `${timerLabel} stopped`;
 
   try {
     await client.user.setPresence({
@@ -205,7 +222,7 @@ function startPresenceUpdates() {
 
   presenceInterval = setInterval(() => {
     void updateTimerPresence();
-  }, 60 * 1000);
+  }, 1000);
 
   if (typeof presenceInterval.unref === "function") {
     presenceInterval.unref();
@@ -230,9 +247,12 @@ client.on("messageCreate", async (message) => {
     await message.reply([
       "**Timer commands**",
       "`!timer` or `!timer status` - show elapsed time",
+      "`!timer name <map name>` - set timer/map name",
+      "`!timer clearname` - clear timer/map name",
       "`!timer start` - start from 00:00:00",
       "`!timer start 2d4h30m` - start as if it began that long ago",
       "`!timer startat 25-06-2026 12:00:00` - start from a specific past time",
+      "`!timer startat 25-06-2026 12:00:00 Origins` - startat and set name",
       "`!timer stop` - pause timer",
       "`!timer resume` - continue after stop",
       "`!timer reset` - reset to 00:00:00 and stop",
@@ -242,7 +262,31 @@ client.on("messageCreate", async (message) => {
 
   if (command === "status") {
     const elapsed = getElapsedMs(state);
-    await message.reply(`Timer: **${formatElapsed(elapsed)}** (${state.running ? "running" : "stopped"})`);
+    await message.reply(`${getTimerDisplayName()}: **${formatElapsed(elapsed)}** (${state.running ? "running" : "stopped"})`);
+    return;
+  }
+
+  if (command === "name") {
+    const newName = sanitizeTimerName(args.join(" "));
+    if (!newName) {
+      await message.reply("Provide a name. Example: `!timer name Kino Der Toten`");
+      return;
+    }
+
+    state.timerName = newName;
+    saveState(state);
+    await updateTimerPresence();
+
+    await message.reply(`Timer name set to **${state.timerName}**.`);
+    return;
+  }
+
+  if (command === "clearname") {
+    state.timerName = null;
+    saveState(state);
+    await updateTimerPresence();
+
+    await message.reply("Timer name cleared.");
     return;
   }
 
@@ -263,20 +307,27 @@ client.on("messageCreate", async (message) => {
       running: true,
       startedAtMs: Date.now(),
       accumulatedMs: initialMs,
+      timerName: state.timerName || null,
     };
     saveState(state);
     await updateTimerPresence();
 
-    await message.reply(`Started timer at **${formatElapsed(getElapsedMs(state))}**.`);
+    await message.reply(`Started **${getTimerDisplayName()}** at **${formatElapsed(getElapsedMs(state))}**.`);
     return;
   }
 
   if (command === "startat") {
-    const input = args.join(" ");
-    if (!input) {
+    if (args.length === 0) {
       await message.reply("Provide a date/time. Example: `!timer startat 25-06-2026 12:00:00`");
       return;
     }
+
+    const dateToken = args[0] || "";
+    const maybeTimeToken = args[1] || "";
+    const hasSeparateTimeToken = /^\d{1,2}:\d{1,2}(?::\d{1,2})?$/.test(maybeTimeToken);
+
+    const input = hasSeparateTimeToken ? `${dateToken} ${maybeTimeToken}` : dateToken;
+    const providedName = sanitizeTimerName(args.slice(hasSeparateTimeToken ? 2 : 1).join(" "));
 
     const startMs = parseDateToMs(input);
     if (startMs === null) {
@@ -291,11 +342,12 @@ client.on("messageCreate", async (message) => {
       running: true,
       startedAtMs: now,
       accumulatedMs: elapsed,
+      timerName: providedName || state.timerName || null,
     };
     saveState(state);
     await updateTimerPresence();
 
-    await message.reply(`Started timer as if it began at **${formatDateDMY(startMs)}**. Current: **${formatElapsed(getElapsedMs(state))}**.`);
+    await message.reply(`Started **${getTimerDisplayName()}** as if it began at **${formatDateDMY(startMs)}**. Current: **${formatElapsed(getElapsedMs(state))}**.`);
     return;
   }
 
@@ -311,7 +363,7 @@ client.on("messageCreate", async (message) => {
     saveState(state);
     await updateTimerPresence();
 
-    await message.reply(`Stopped at **${formatElapsed(state.accumulatedMs)}**.`);
+    await message.reply(`Stopped **${getTimerDisplayName()}** at **${formatElapsed(state.accumulatedMs)}**.`);
     return;
   }
 
@@ -326,7 +378,7 @@ client.on("messageCreate", async (message) => {
     saveState(state);
     await updateTimerPresence();
 
-    await message.reply(`Resumed at **${formatElapsed(getElapsedMs(state))}**.`);
+    await message.reply(`Resumed **${getTimerDisplayName()}** at **${formatElapsed(getElapsedMs(state))}**.`);
     return;
   }
 
@@ -335,11 +387,12 @@ client.on("messageCreate", async (message) => {
       running: false,
       startedAtMs: null,
       accumulatedMs: 0,
+      timerName: state.timerName || null,
     };
     saveState(state);
     await updateTimerPresence();
 
-    await message.reply("Timer reset to **00:00:00** (stopped).");
+    await message.reply(`${getTimerDisplayName()} reset to **00:00:00** (stopped).`);
     return;
   }
 
