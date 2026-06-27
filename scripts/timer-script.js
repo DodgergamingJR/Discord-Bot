@@ -749,7 +749,9 @@ client.on("messageCreate", async (message) => {
       "`!timer table rename <old> <new>` - rename a table",
       "`!timer table remove <name> <last|index>` - remove a saved timer from a table",
       "`!timer backup now` - back up tables immediately",
-      "`!timer start` - start from 00:00:00",
+      "`!timer start Origins` - start from 00:00:00 and set timer/map name",
+      "`!timer start 2d4h30m Origins` - backdate start and set timer/map name",
+      "`!timer start 2d4h30m` - backdate start using existing timer name",
       "`!timer startat 25-06-2026 12:00:00 Origins` - startat and set name",
       "`!timer stop` - pause timer",
       "`!timer resume` - continue after stop",
@@ -1008,6 +1010,11 @@ client.on("messageCreate", async (message) => {
   }
 
   if (command === "clearname") {
+    if (state.running) {
+      await message.reply("Cannot clear timer name while timer is running. Stop it first.");
+      return;
+    }
+
     state.timerName = null;
     saveState(state);
     await updateTimerPresence();
@@ -1017,16 +1024,30 @@ client.on("messageCreate", async (message) => {
   }
 
   if (command === "start") {
-    const maybeDuration = args.join("");
+    const compactInput = args.join("");
+    const firstArg = args[0] || "";
     let initialMs = 0;
+    let providedName = null;
 
-    if (maybeDuration) {
-      const parsed = parseDurationToMs(maybeDuration);
-      if (parsed === null) {
-        await message.reply("Invalid duration. Example: `!timer start 2d4h30m10s`");
-        return;
+    if (compactInput) {
+      const parsedCompactDuration = parseDurationToMs(compactInput);
+      if (parsedCompactDuration !== null) {
+        initialMs = parsedCompactDuration;
+      } else {
+        const parsedFirstDuration = parseDurationToMs(firstArg);
+        if (parsedFirstDuration !== null && args.length > 1) {
+          initialMs = parsedFirstDuration;
+          providedName = sanitizeTimerName(args.slice(1).join(" "));
+        } else {
+          providedName = sanitizeTimerName(args.join(" "));
+        }
       }
-      initialMs = parsed;
+    }
+
+    const selectedName = sanitizeTimerName(providedName || state.timerName || "");
+    if (!selectedName) {
+      await message.reply("Timer name is required. Use `!timer start <name>` or set one first with `!timer name <name>`." );
+      return;
     }
 
     state = {
@@ -1034,7 +1055,7 @@ client.on("messageCreate", async (message) => {
       startedAtMs: Date.now(),
       accumulatedMs: initialMs,
       sessionStartedAtMs: Date.now() - initialMs,
-      timerName: state.timerName || null,
+      timerName: selectedName,
       lastStoppedTimerRecord: state.lastStoppedTimerRecord || null,
     };
     saveState(state);
@@ -1066,12 +1087,18 @@ client.on("messageCreate", async (message) => {
     const now = Date.now();
     const elapsed = Math.max(0, now - startMs);
 
+    const selectedName = sanitizeTimerName(providedName || state.timerName || "");
+    if (!selectedName) {
+      await message.reply("Timer name is required. Use `!timer startat <date> <name>` or set one first with `!timer name <name>`." );
+      return;
+    }
+
     state = {
       running: true,
       startedAtMs: now,
       accumulatedMs: elapsed,
       sessionStartedAtMs: startMs,
-      timerName: providedName || state.timerName || null,
+      timerName: selectedName,
       lastStoppedTimerRecord: state.lastStoppedTimerRecord || null,
     };
     saveState(state);
@@ -1100,6 +1127,11 @@ client.on("messageCreate", async (message) => {
   if (command === "resume") {
     if (state.running) {
       await message.reply("Timer is already running.");
+      return;
+    }
+
+    if (!sanitizeTimerName(state.timerName || "")) {
+      await message.reply("Timer name is required before resume. Set it with `!timer name <name>`." );
       return;
     }
 
