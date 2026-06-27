@@ -618,37 +618,23 @@ function getLastStoppedTimerRecord() {
 
 async function promptToAddTimerToTable(message, timerRecord) {
   const availableTables = getSortedTables();
-  const promptToken = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  pendingTablePrompts.set(promptToken, {
-    userId: message.author.id,
-    timerRecord,
-  });
-
-  const timeoutHandle = setTimeout(() => {
-    pendingTablePrompts.delete(promptToken);
-  }, 10 * 60 * 1000);
-
-  if (typeof timeoutHandle.unref === "function") {
-    timeoutHandle.unref();
-  }
-
   const tableCount = availableTables.length;
-  const content = tableCount > 0
-    ? `${message.author}, would you like to add this run to a table?`
-    : `${message.author}, no tables exist yet. Create one with \`!timer create table <name>\` so this run can be added later, or skip it for now.`;
 
-  const components = createTableSelectComponents(promptToken);
-  const payload = {
-    content,
-    components,
-  };
-
-  try {
-    await message.channel.send(payload);
-  } catch (error) {
-    console.error("Failed to send table prompt:", error?.message || error);
-    await message.reply(payload);
+  if (tableCount === 0) {
+    await message.channel.send([
+      `${message.author}, would you like to add this run to a table?`,
+      "No tables exist yet.",
+      "Create one with: `!timer create table <name>`",
+      "Then add this run with: `!timer add table <name>`",
+    ].join("\n"));
+    return;
   }
+
+  await message.channel.send([
+    `${message.author}, would you like to add this run to a table?`,
+    "Add it with: `!timer add table <name>`",
+    "See all table names with: `!timer table all`",
+  ].join("\n"));
 }
 
 async function showTable(message, tableName) {
@@ -988,7 +974,21 @@ client.on("messageCreate", async (message) => {
       return;
     }
 
-    await message.reply("Unknown table command. Use `!timer table show <name>` or `!timer table list`.");
+    if (tableSubcommand === "all") {
+      const tableNames = getSortedTables();
+      if (tableNames.length === 0) {
+        await message.reply("No tables exist yet. Create one with `!timer create table <name>`.");
+        return;
+      }
+
+      await message.reply([
+        "**All Tables**",
+        ...tableNames.map((table) => `- ${table.name}`),
+      ].join("\n"));
+      return;
+    }
+
+    await message.reply("Unknown table command. Use `!timer table show <name>`, `!timer table list`, or `!timer table all`.");
     return;
   }
 
