@@ -232,7 +232,7 @@ function parseStartInput(input, allowedGames) {
     return { ok: false, reason: "count", game: matched.game };
   }
 
-  const playerCount = Number.parseInt(parts[countIndex], 10);
+  const globalChallengeCount = Number.parseInt(parts[countIndex], 10);
   const difficulty = (parts[countIndex - 1] || "").trim();
   const mapName = parts.slice(0, countIndex - 1).join(" ").trim();
   const tagsRaw = parts.slice(countIndex + 1).join(" ").trim();
@@ -246,24 +246,15 @@ function parseStartInput(input, allowedGames) {
   }
 
   if (!tagsRaw) {
-    return { ok: false, reason: "tags", game: matched.game, mapName, difficulty, playerCount };
+    return { ok: false, reason: "tags", game: matched.game, mapName, difficulty, globalChallengeCount };
   }
 
   const gamertags = tagsRaw.includes(",")
     ? tagsRaw.split(",").map((item) => item.trim()).filter(Boolean)
     : tagsRaw.split(/\s+/).filter(Boolean);
 
-  if (gamertags.length !== playerCount) {
-    return {
-      ok: false,
-      reason: "mismatch",
-      game: matched.game,
-      mapName,
-      difficulty,
-      playerCount,
-      countProvided: gamertags.length,
-      gamertags,
-    };
+  if (gamertags.length === 0) {
+    return { ok: false, reason: "tags", game: matched.game, mapName, difficulty, globalChallengeCount };
   }
 
   return {
@@ -271,9 +262,55 @@ function parseStartInput(input, allowedGames) {
     game: matched.game,
     mapName,
     difficulty,
-    playerCount,
+    globalChallengeCount,
+    playerCount: gamertags.length,
     gamertags,
   };
+}
+
+function shuffleValues(values) {
+  const shuffled = [...values];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+
+  return shuffled;
+}
+
+function selectGlobalChallenges(globalPool, requestedCount) {
+  if (!Array.isArray(globalPool) || globalPool.length === 0) {
+    return [];
+  }
+
+  const safeCount = Math.max(0, Number.parseInt(requestedCount, 10) || 0);
+  return shuffleValues(globalPool).slice(0, Math.min(safeCount, globalPool.length));
+}
+
+function assignIndividualChallenges(gamertags, individualPool) {
+  if (!Array.isArray(gamertags) || gamertags.length === 0) {
+    return [];
+  }
+
+  const pool = Array.isArray(individualPool) ? individualPool.filter(Boolean) : [];
+  let shuffledPool = shuffleValues(pool);
+
+  return gamertags.map((gamertag) => {
+    if (shuffledPool.length === 0 && pool.length > 0) {
+      shuffledPool = shuffleValues(pool);
+    }
+
+    const assignedChallenge = shuffledPool.length > 0
+      ? shuffledPool.shift()
+      : "No challenge assigned";
+
+    return {
+      gamertag,
+      assignedChallenge,
+      challenges: assignedChallenge === "No challenge assigned" ? [] : [assignedChallenge],
+    };
+  });
 }
 
 function formatChallenge(challenge) {
@@ -300,7 +337,12 @@ function formatPlayerChallenges(challenge) {
   }
 
   return perPlayer
-    .map((entry) => `- ${entry.gamertag}`)
+    .map((entry) => {
+      const assignedChallenge = entry.assignedChallenge
+        || (Array.isArray(entry.challenges) && entry.challenges.length > 0 ? entry.challenges[0] : "No challenge assigned");
+
+      return `- ${entry.gamertag} - ${assignedChallenge}`;
+    })
     .join("\n");
 }
 
@@ -335,12 +377,12 @@ function registerChallengeHandlers(client) {
       await message.reply([
         "**Challenge commands**",
         "`!challenge games` - list allowed games",
-        "`!challenge start <game> <map> <difficulty> <playerCount> <gamertag1,gamertag2,...>` - start an Easter Egg Run challenge",
+        "`!challenge start <game> <map> <difficulty> <globalChallengeCount> <gamertag1,gamertag2,...>` - start an Easter Egg Run challenge",
         "`!challenge status` - show current challenge",
         "`!challenge end` - end current challenge",
         "",
         "Example:",
-        "`!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`",
+        "`!challenge start Black Ops 3 Der Eisendrache Difficult 3 Merl,Alex,Sam,Chris`",
       ].join("\n"));
       return;
     }
@@ -399,32 +441,27 @@ function registerChallengeHandlers(client) {
         }
 
         if (parsed.reason === "format") {
-          await message.reply("Please include map, difficulty, player count, and gamertags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
+          await message.reply("Please include map, difficulty, global challenge count, and gamertags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 3 Merl,Alex,Sam,Chris`");
           return;
         }
 
         if (parsed.reason === "count") {
-          await message.reply("Please include a valid player count before gamertags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
+          await message.reply("Please include a valid global challenge count before gamertags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 3 Merl,Alex,Sam,Chris`");
           return;
         }
 
         if (parsed.reason === "map") {
-          await message.reply("Please include a map name. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
+          await message.reply("Please include a map name. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 3 Merl,Alex,Sam,Chris`");
           return;
         }
 
         if (parsed.reason === "difficulty") {
-          await message.reply("Please include a difficulty. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
+          await message.reply("Please include a difficulty. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 3 Merl,Alex,Sam,Chris`");
           return;
         }
 
         if (parsed.reason === "tags") {
-          await message.reply("Please include gamer tags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
-          return;
-        }
-
-        if (parsed.reason === "mismatch") {
-          await message.reply(`Player count is ${parsed.playerCount}, but you provided ${parsed.countProvided} gamertag(s).`);
+          await message.reply("Please include gamer tags separated by commas. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 3 Merl,Alex,Sam,Chris`");
           return;
         }
 
@@ -433,6 +470,8 @@ function registerChallengeHandlers(client) {
       }
 
       const pools = getChallengePools(challengeCatalog, parsed.game, parsed.mapName, parsed.difficulty);
+      const selectedGlobalChallenges = selectGlobalChallenges(pools.global, parsed.globalChallengeCount);
+      const playerChallenges = assignIndividualChallenges(parsed.gamertags, pools.individual);
 
       state.activeChallenge = {
         id: `${Date.now()}`,
@@ -441,17 +480,11 @@ function registerChallengeHandlers(client) {
         mapName: parsed.mapName,
         difficulty: parsed.difficulty,
         playerCount: parsed.playerCount,
+        globalChallengeCount: parsed.globalChallengeCount,
         gamertags: parsed.gamertags,
-        globalChallenges: pools.global,
+        globalChallenges: selectedGlobalChallenges,
         individualChallenges: pools.individual,
-        playerChallenges: parsed.gamertags.map((tag) => ({
-          gamertag: tag,
-          challengeType: "Easter Egg Run",
-          game: parsed.game,
-          mapName: parsed.mapName,
-          difficulty: parsed.difficulty,
-          challenges: pools.individual,
-        })),
+        playerChallenges,
         createdByUserId: message.author.id,
         createdAtMs: Date.now(),
       };
