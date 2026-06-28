@@ -64,7 +64,164 @@
           ]
         }
       },
-      "mapOverrides": {}
+      "mapOverrides": {
+        "Kino Der Toten": {
+          "global": {
+            "normal": [
+              "Turn on power before round 6",
+              "Open Pack-a-Punch before round 14",
+              "Use the fire trap at least 3 times as a team"
+            ],
+            "difficult": [
+              "Reach round 30 with no more than 5 team downs",
+              "No player bleed out during dog rounds",
+              "Complete one full round in the alley route"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Get 150 kills in the theater area",
+              "Contribute at least 2 door buys",
+              "Get at least 1 revive before round 15"
+            ],
+            "difficult": [
+              "Complete one full dog round without taking a hit",
+              "Survive 3 rounds in a tight training loop",
+              "No down before round 20"
+            ]
+          }
+        },
+        "Five": {
+          "global": {
+            "normal": [
+              "Open both upper floors before round 10",
+              "Activate power before round 8",
+              "Steal back one weapon from the Pentagon Thief"
+            ],
+            "difficult": [
+              "No player loses a weapon to the Pentagon Thief",
+              "Reach round 25 with no team wipe",
+              "No more than 6 team downs"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Get 100 kills in DEFCON room",
+              "Use teleport at least twice",
+              "Buy one critical progression door"
+            ],
+            "difficult": [
+              "Survive one thief round without going down",
+              "No self-revive use",
+              "Get 2 clutch revives"
+            ]
+          }
+        },
+        "Ascension": {
+          "global": {
+            "normal": [
+              "Activate power before round 8",
+              "Use lunar landers at least once each",
+              "Keep all perk machines safe through first monkey round"
+            ],
+            "difficult": [
+              "No lost perks during monkey rounds",
+              "Reach round 30 with no player bleed out",
+              "All players Pack-a-Punch by round 14"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Kill 2 monkeys defending perks",
+              "Get at least 1 revive during monkey round",
+              "Use lander to save a teammate"
+            ],
+            "difficult": [
+              "No down before first two monkey rounds",
+              "Reach 900 kills",
+              "Contribute to all generator route opens"
+            ]
+          }
+        },
+        "Call of the Dead": {
+          "global": {
+            "normal": [
+              "Trigger the lighthouse sequence by round 14",
+              "Kill George at least once before round 25",
+              "Open all major ship routes"
+            ],
+            "difficult": [
+              "No team wipe while George is enraged",
+              "Complete objective flow with no more than 6 downs",
+              "No player bleed out"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Land 1 final hit on George",
+              "Get 2 revives in tight spaces",
+              "Spend one full round on the ship top deck"
+            ],
+            "difficult": [
+              "No down during blizzard rounds",
+              "Reach 1000 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Shangri-La": {
+          "global": {
+            "normal": [
+              "Activate power path and open Pack-a-Punch route before round 12",
+              "Use both minecart directions",
+              "Keep no more than 1 player down per round"
+            ],
+            "difficult": [
+              "No team wipe during napalm rounds",
+              "No more than 5 team downs total",
+              "No player bleed out"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Get 1 revive during a special zombie round",
+              "Kill 100 zombies in tunnel routes",
+              "Contribute one critical switch interaction"
+            ],
+            "difficult": [
+              "No down before round 18",
+              "Reach 950 kills",
+              "Complete one full round using only wall weapons"
+            ]
+          }
+        },
+        "Moon": {
+          "global": {
+            "normal": [
+              "Activate power and oxygen routes before round 10",
+              "Open Pack-a-Punch before round 14",
+              "Complete one excavator shutdown event"
+            ],
+            "difficult": [
+              "No player bleed out in low oxygen zones",
+              "No more than 5 team downs",
+              "Reach round 30"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Get 150 kills in no-man's-land or moon exterior",
+              "Buy one key life-support door",
+              "Get at least 2 revives"
+            ],
+            "difficult": [
+              "No down during excavator pressure",
+              "Reach 1000 kills",
+              "No self-revive use"
+            ]
+          }
+        }
+      }
     },
     "Black Ops 2": {
       "allMaps": {
@@ -129,7 +286,164 @@
           ]
         }
       },
-      "mapOverrides": {}
+      "mapOverrides": {
+        "Tranzit": {
+          "global": {
+            "normal": [
+              "Power on and open Pack-a-Punch route before round 15",
+              "Use the bus for at least 4 full stops",
+              "As a team, open all core lanes"
+            ],
+            "difficult": [
+              "Reach round 30 with no player bleed out",
+              "No more than 7 team downs",
+              "Complete objective flow without team wipe"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one turbine setup action",
+              "Get at least 2 revives",
+              "Buy one major route door"
+            ],
+            "difficult": [
+              "No down before round 18",
+              "Reach 1000 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Nuketown Zombies": {
+          "global": {
+            "normal": [
+              "Open both house routes by round 10",
+              "Reach round 25 with no team wipe",
+              "Keep team downs to 6 or fewer"
+            ],
+            "difficult": [
+              "No player bleed out",
+              "Reach round 30",
+              "No more than 4 team downs"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Hold one side lane for 2 rounds",
+              "Get 150 headshots",
+              "Get at least 1 revive"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1100 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Die Rise": {
+          "global": {
+            "normal": [
+              "Open roof path before round 12",
+              "Build one wonder weapon component route",
+              "No team wipe during jumping transitions"
+            ],
+            "difficult": [
+              "No player bleed out from falls",
+              "Reach round 30 with max 6 downs",
+              "All players Pack-a-Punch by round 16"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one elevator management action",
+              "Get at least 2 revives",
+              "Survive one full round on the roof"
+            ],
+            "difficult": [
+              "No down during vertical transitions",
+              "Reach 1000 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Mob of the Dead": {
+          "global": {
+            "normal": [
+              "Activate Pack-a-Punch before round 14",
+              "Complete plane build sequence",
+              "Open all prison progression routes"
+            ],
+            "difficult": [
+              "No player bleed out on bridge phase",
+              "No more than 6 team downs",
+              "Reach round 30"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Collect one key objective item",
+              "Get 2 revives in prison blocks",
+              "Contribute one dog head feed"
+            ],
+            "difficult": [
+              "No down during bridge round",
+              "Reach 1050 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Buried": {
+          "global": {
+            "normal": [
+              "Open mansion access before round 12",
+              "Build and use one key utility buildable",
+              "Use the giant to open at least 2 paths"
+            ],
+            "difficult": [
+              "No player bleed out",
+              "Reach round 30 with max 6 downs",
+              "No team wipe in maze routes"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one giant candy control",
+              "Get at least 2 revives",
+              "Buy one major progression door"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1000 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Origins": {
+          "global": {
+            "normal": [
+              "Turn on all generators before round 12",
+              "Build at least one upgraded staff before round 18",
+              "Open Pack-a-Punch before round 14"
+            ],
+            "difficult": [
+              "No player bleed out during robot steps",
+              "No more than 6 team downs",
+              "Complete objective route with no team wipe"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one staff part",
+              "Get 2 revives during generator defense",
+              "Spend one full round in no-man's-land"
+            ],
+            "difficult": [
+              "No down during Panzer rounds",
+              "Reach 1100 kills",
+              "No self-revive use"
+            ]
+          }
+        }
+      }
     },
     "Black Ops 3": {
       "allMaps": {
@@ -194,7 +508,164 @@
           ]
         }
       },
-      "mapOverrides": {}
+      "mapOverrides": {
+        "Shadows of Evil": {
+          "global": {
+            "normal": [
+              "Summon and ride the tram at least 4 times as a team",
+              "Every player uses Beast Mode for objective progress at least once",
+              "Open Pack-a-Punch before round 12"
+            ],
+            "difficult": [
+              "Complete the flag step without a full team wipe",
+              "Defeat the Shadow Man with no more than 5 team downs",
+              "No player may keep the same two weapons for more than 10 rounds"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Open at least one ritual room door",
+              "Complete one full round while holding the sword",
+              "Kill one Margwa in under 45 seconds"
+            ],
+            "difficult": [
+              "Complete one flag defense segment without going down",
+              "Train and survive 2 rounds in Footlight",
+              "Contribute at least one upgraded sword objective"
+            ]
+          }
+        },
+        "The Giant": {
+          "global": {
+            "normal": [
+              "Link every teleporter before round 10",
+              "No player may use the same camping spot for more than 3 rounds",
+              "Reach round 30 with no more than 6 team downs"
+            ],
+            "difficult": [
+              "Activate all teleporters before round 9",
+              "No player bleed out",
+              "No more than 5 team downs"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Use each teleporter at least once",
+              "Get 200 kills with wall weapons",
+              "Buy at least 2 doors to speed up teleporter setup"
+            ],
+            "difficult": [
+              "Do not go down before round 20",
+              "Kill one full dog round without traps",
+              "Reach 1000 kills"
+            ]
+          }
+        },
+        "Der Eisendrache": {
+          "global": {
+            "normal": [
+              "Build all 4 bow quest starts before round 10",
+              "Complete anti-gravity setup before round 12",
+              "At least 2 players must have upgraded bows before the keeper step"
+            ],
+            "difficult": [
+              "Complete the keeper step with no team wipe",
+              "Enter the boss fight with no more than 5 total team downs",
+              "No player may use Mega Gobblegum during rocket test rounds"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Complete one full bow upgrade path contribution",
+              "Get at least 2 revives before boss fight",
+              "Finish one Panzer round without going down"
+            ],
+            "difficult": [
+              "Complete one Simon Says cycle flawlessly",
+              "Do not go down during keeper step",
+              "Kill one Panzer using non-wonder-weapon damage"
+            ]
+          }
+        },
+        "Zetsubou No Shima": {
+          "global": {
+            "normal": [
+              "Power on both sides before round 12",
+              "Open Pack-a-Punch before round 14",
+              "Complete one full plant cycle as a team"
+            ],
+            "difficult": [
+              "No player bleed out during boss prep steps",
+              "No more than 6 team downs",
+              "No team wipe in bunker phase"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Water at least one team utility plant",
+              "Get at least 2 revives",
+              "Contribute one major bunker objective"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1000 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Gorod Krovi": {
+          "global": {
+            "normal": [
+              "Open Pack-a-Punch before round 12",
+              "Build shield and dragon strike setup before round 18",
+              "No team wipe during dragon fire rounds"
+            ],
+            "difficult": [
+              "No player bleed out in valve/escort steps",
+              "No more than 6 team downs",
+              "Enter boss fight before round 30"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one trophy or code objective",
+              "Get at least 2 revives",
+              "Kill one Mangler and one Valkyrie in same round"
+            ],
+            "difficult": [
+              "No down during escort step",
+              "Reach 1100 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Revelations": {
+          "global": {
+            "normal": [
+              "Open Pack-a-Punch before round 14",
+              "Complete at least 2 corruption engine defenses before round 18",
+              "No team wipe in Apothicon sections"
+            ],
+            "difficult": [
+              "No player bleed out during keeper/protection steps",
+              "No more than 6 team downs",
+              "Complete objective flow before round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one corruption engine defense",
+              "Get at least 2 revives",
+              "Spend one full round in a teleported legacy area"
+            ],
+            "difficult": [
+              "No down during boss prep rounds",
+              "Reach 1100 kills",
+              "No self-revive use"
+            ]
+          }
+        }
+      }
     },
     "Black Ops 4": {
       "allMaps": {
@@ -259,7 +730,216 @@
           ]
         }
       },
-      "mapOverrides": {}
+      "mapOverrides": {
+        "IX": {
+          "global": {
+            "normal": [
+              "Open Pack-a-Punch before round 12",
+              "Complete all four tower rituals as a team",
+              "No team wipe in arena rounds"
+            ],
+            "difficult": [
+              "No player bleed out during champion rounds",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one tower challenge objective",
+              "Get at least 2 revives",
+              "Kill one gladiator and one brawler in same round"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1100 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Voyage of Despair": {
+          "global": {
+            "normal": [
+              "Open all deck routes before round 14",
+              "Activate Pack-a-Punch before round 15",
+              "No team wipe during stoker rounds"
+            ],
+            "difficult": [
+              "No player bleed out in engine room",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one planet/clock objective",
+              "Get at least 2 revives",
+              "Spend one full round in lower deck corridors"
+            ],
+            "difficult": [
+              "No down during stoker-heavy rounds",
+              "Reach 1100 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Blood of the Dead": {
+          "global": {
+            "normal": [
+              "Open Pack-a-Punch before round 14",
+              "Complete shield setup and key upgrade progression",
+              "No team wipe during rooftop transitions"
+            ],
+            "difficult": [
+              "No player bleed out during challenge-heavy steps",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one shield objective step",
+              "Get at least 2 revives",
+              "Kill at least 2 wardens"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1100 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Classified": {
+          "global": {
+            "normal": [
+              "Open all DEFCON levels before round 12",
+              "Activate Pack-a-Punch before round 14",
+              "No team wipe during teleporter rotations"
+            ],
+            "difficult": [
+              "No player bleed out",
+              "No more than 5 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Use teleporters at least 3 times",
+              "Get at least 2 revives",
+              "Buy one major progression door"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1000 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Dead of the Night": {
+          "global": {
+            "normal": [
+              "Open Pack-a-Punch before round 15",
+              "Complete silver bullet setup",
+              "No team wipe during werewolf rounds"
+            ],
+            "difficult": [
+              "No player bleed out during boss prep",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one symbol or tuning objective",
+              "Get at least 2 revives",
+              "Kill 2 werewolves"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1100 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Ancient Evil": {
+          "global": {
+            "normal": [
+              "Open all oracle routes before round 14",
+              "Unlock gauntlet progression as a team",
+              "No team wipe during Pegasus pressure rounds"
+            ],
+            "difficult": [
+              "No player bleed out in amphitheater zones",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one gauntlet upgrade objective",
+              "Get at least 2 revives",
+              "Spend one full round in both city sides"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1100 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Alpha Omega": {
+          "global": {
+            "normal": [
+              "Open bunker routes before round 12",
+              "Activate Pack-a-Punch before round 14",
+              "No team wipe during crawler-heavy rounds"
+            ],
+            "difficult": [
+              "No player bleed out",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one code or TV objective",
+              "Get at least 2 revives",
+              "Kill 3 nova crawler clusters"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1000 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Tag der Toten": {
+          "global": {
+            "normal": [
+              "Open lighthouse routes before round 12",
+              "Complete key objective setup before round 20",
+              "No team wipe in frozen pathways"
+            ],
+            "difficult": [
+              "No player bleed out during zipline pressure",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one challenge totem or objective",
+              "Get at least 2 revives",
+              "Spend one full round in shipwreck lanes"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1100 kills",
+              "No self-revive use"
+            ]
+          }
+        }
+      }
     },
     "Black Ops Cold War": {
       "allMaps": {
@@ -324,7 +1004,112 @@
           ]
         }
       },
-      "mapOverrides": {}
+      "mapOverrides": {
+        "Die Maschine": {
+          "global": {
+            "normal": [
+              "Turn on power and open Pack-a-Punch before round 12",
+              "Complete one full Aether portal cycle with team present",
+              "No team wipe in Dark Aether route"
+            ],
+            "difficult": [
+              "No player bleed out during Megaton rounds",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one machine part objective",
+              "Get at least 2 revives",
+              "Kill one Megaton split pair"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1200 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Firebase Z": {
+          "global": {
+            "normal": [
+              "Turn on power and reactors before round 12",
+              "Complete one full defense sequence with no wipe",
+              "Open Pack-a-Punch before round 14"
+            ],
+            "difficult": [
+              "No player bleed out during assault rounds",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one reactor defense",
+              "Get at least 2 revives",
+              "Kill one Mimic and one Mangler in same round"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1200 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Mauer der Toten": {
+          "global": {
+            "normal": [
+              "Activate power and Pack-a-Punch before round 12",
+              "Complete one train event objective as a team",
+              "No team wipe during tempest pressure rounds"
+            ],
+            "difficult": [
+              "No player bleed out during objective escort",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one objective cassette/part",
+              "Get at least 2 revives",
+              "Kill one Krasny Soldat"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1250 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Forsaken": {
+          "global": {
+            "normal": [
+              "Activate Pack-a-Punch before round 12",
+              "Open all key route ziplines before round 16",
+              "No team wipe during abomination rounds"
+            ],
+            "difficult": [
+              "No player bleed out in objective phases",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one crystal or neutralizer objective",
+              "Get at least 2 revives",
+              "Kill one abomination"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1250 kills",
+              "No self-revive use"
+            ]
+          }
+        }
+      }
     },
     "Black Ops 6": {
       "allMaps": {
@@ -389,7 +1174,112 @@
           ]
         }
       },
-      "mapOverrides": {}
+      "mapOverrides": {
+        "Terminus": {
+          "global": {
+            "normal": [
+              "Open all core routes before round 14",
+              "Activate Pack-a-Punch before round 13",
+              "No team wipe during elite spawn rounds"
+            ],
+            "difficult": [
+              "No player bleed out during objective phases",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one major terminal/objective interaction",
+              "Get at least 2 revives",
+              "Hold one critical lane for a full round"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1300 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Liberty Falls": {
+          "global": {
+            "normal": [
+              "Open all key downtown routes before round 14",
+              "Activate Pack-a-Punch before round 13",
+              "No team wipe during high-pressure specials"
+            ],
+            "difficult": [
+              "No player bleed out",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one major setup objective",
+              "Get at least 2 revives",
+              "Spend one full round in an interior choke lane"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1300 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Citadelle des Morts": {
+          "global": {
+            "normal": [
+              "Open key castle routes before round 14",
+              "Activate Pack-a-Punch before round 13",
+              "No team wipe during elite pressure rounds"
+            ],
+            "difficult": [
+              "No player bleed out in objective phases",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one major relic/objective step",
+              "Get at least 2 revives",
+              "Hold one outer-wall lane for a full round"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1300 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "The Tomb": {
+          "global": {
+            "normal": [
+              "Open crypt progression routes before round 14",
+              "Activate Pack-a-Punch before round 13",
+              "No team wipe during boss-pressure rounds"
+            ],
+            "difficult": [
+              "No player bleed out in objective transitions",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one major glyph/objective interaction",
+              "Get at least 2 revives",
+              "Spend one full round in crypt lanes"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1300 kills",
+              "No self-revive use"
+            ]
+          }
+        }
+      }
     },
     "Black Ops 7": {
       "allMaps": {
@@ -454,7 +1344,112 @@
           ]
         }
       },
-      "mapOverrides": {}
+      "mapOverrides": {
+        "Outpost Echo": {
+          "global": {
+            "normal": [
+              "Open all core routes before round 14",
+              "Complete setup chain before round 18",
+              "No team wipe during elite pressure rounds"
+            ],
+            "difficult": [
+              "No player bleed out",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one major objective step",
+              "Get at least 2 revives",
+              "Hold one critical lane for a full round"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1300 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Obsidian Gate": {
+          "global": {
+            "normal": [
+              "Open all gate routes before round 14",
+              "Complete setup chain before round 18",
+              "No team wipe during objective pressure rounds"
+            ],
+            "difficult": [
+              "No player bleed out",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one major objective step",
+              "Get at least 2 revives",
+              "Spend one full round in lower corridors"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1300 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Redline": {
+          "global": {
+            "normal": [
+              "Open all route loops before round 14",
+              "Complete setup chain before round 18",
+              "No team wipe in high-speed route zones"
+            ],
+            "difficult": [
+              "No player bleed out",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one major objective step",
+              "Get at least 2 revives",
+              "Hold one exposed lane for a full round"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1300 kills",
+              "No self-revive use"
+            ]
+          }
+        },
+        "Hollowpoint": {
+          "global": {
+            "normal": [
+              "Open all key routes before round 14",
+              "Complete setup chain before round 18",
+              "No team wipe during elite pressure rounds"
+            ],
+            "difficult": [
+              "No player bleed out",
+              "No more than 6 team downs",
+              "Reach round 35"
+            ]
+          },
+          "individual": {
+            "normal": [
+              "Contribute one major objective step",
+              "Get at least 2 revives",
+              "Spend one full round in hazard lanes"
+            ],
+            "difficult": [
+              "No down before round 20",
+              "Reach 1300 kills",
+              "No self-revive use"
+            ]
+          }
+        }
+      }
     }
   }
 }
