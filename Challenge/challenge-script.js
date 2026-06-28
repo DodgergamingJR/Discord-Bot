@@ -24,7 +24,7 @@ const GAMES_FILE = path.join(__dirname, "games.json");
 const STATE_FILE = path.join(__dirname, "challenge-state.json");
 const CHALLENGE_CATALOG_FILE = path.join(__dirname, "challenge-catalog.json");
 const CHALLENGE_TABLES_FILE = path.join(__dirname, "challenge-tables.json");
-const CHALLENGE_TABLE_BACKUP_DIR = path.join(__dirname, "..", "backups", "challenges");
+const CHALLENGE_TABLE_BACKUP_DIR = path.join(__dirname, "..", "backups", "Table Backups", "Challenge");
 
 if (require.main === module && !TOKEN) {
   console.error("Missing DISCORD_TOKEN in environment.");
