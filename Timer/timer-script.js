@@ -30,8 +30,8 @@ require("dotenv").config();
 
 const TOKEN = process.env.DISCORD_TOKEN;
 const PREFIX = "!timer";
-const STATE_FILE = path.join(__dirname, "..", "timer-state.json");
-const TABLES_FILE = path.join(__dirname, "..", "timer-tables.json");
+const STATE_FILE = path.join(__dirname, "timer-state.json");
+const TABLES_FILE = path.join(__dirname, "timer-tables.json");
 const TABLE_BACKUP_DIR = path.join(__dirname, "..", "backups", "Table Backups", "Timer");
 
 if (require.main === module && !TOKEN) {
