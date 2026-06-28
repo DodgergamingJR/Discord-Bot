@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node Main.js",
     "dev": "node --watch Main.js",
-    "script": "node scripts/run-script.js",
+    "script": "node run-script.js",
     "timer-script": "node Timer/timer-script.js",
     "challenge-script": "node Challenge/challenge-script.js"
   },
