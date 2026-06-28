@@ -428,9 +428,10 @@ function registerChallengeHandlers(client) {
 
       await message.reply([
         "**Active Challenge**",
-        "**Global Challenge**",
         formatChallenge(state.activeChallenge),
-        formatChallengeList("Global Challenge Pool", state.activeChallenge.globalChallenges || []),
+        "",
+        formatChallengeList("Global Challenges", state.activeChallenge.globalChallenges || []),
+        "",
         "**Per-Player Challenges**",
         formatPlayerChallenges(state.activeChallenge),
         `Started: **${new Date(state.activeChallenge.createdAtMs).toISOString()}**`,
@@ -510,9 +511,10 @@ function registerChallengeHandlers(client) {
 
       await message.reply([
         "**Challenge Started**",
-        "**Global Challenge**",
         formatChallenge(state.activeChallenge),
-        formatChallengeList("Global Challenge Pool", state.activeChallenge.globalChallenges || []),
+        "",
+        formatChallengeList("Global Challenges", state.activeChallenge.globalChallenges || []),
+        "",
         "**Per-Player Challenges**",
         formatPlayerChallenges(state.activeChallenge),
       ].join("\n"));
@@ -537,9 +539,10 @@ function registerChallengeHandlers(client) {
 
       await message.reply([
         "**Challenge Ended**",
-        "**Global Challenge**",
         formatChallenge(finished),
-        formatChallengeList("Global Challenge Pool", finished.globalChallenges || []),
+        "",
+        formatChallengeList("Global Challenges", finished.globalChallenges || []),
+        "",
         "**Per-Player Challenges**",
         formatPlayerChallenges(finished),
         `Ended: **${new Date(finished.endedAtMs).toISOString()}**`,
