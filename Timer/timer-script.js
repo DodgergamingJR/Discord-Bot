@@ -643,7 +643,7 @@ async function promptToAddTimerToTable(message, timerRecord) {
   await message.channel.send([
     `${message.author}, would you like to add this run to a table?`,
     "Add it with: `!timer add table <name>`",
-    "See all table names with: `!timer table all`",
+    "See all table names with: `!timer table show all`",
   ].join("\n"));
 }
 
@@ -729,8 +729,6 @@ function startPresenceUpdates() {
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
-  backupTablesSnapshot();
-  scheduleNightlyTableBackup();
   startPresenceUpdates();
 });
 
@@ -756,6 +754,7 @@ client.on("messageCreate", async (message) => {
       "`!timer add table <name>` - add the last stopped timer to a table",
       "`!timer create table <name>` - create a timer table",
       "`!timer table show <name>` - show timers saved in a table",
+      "`!timer table show all` - show all table names",
       "`!timer table stats <name>` - show table summary stats",
       "`!timer table delete <name>` - delete a table",
       "`!timer table rename <old> <new>` - rename a table",
@@ -869,7 +868,20 @@ client.on("messageCreate", async (message) => {
     const tableSubcommand = (tableArgs.shift() || "").toLowerCase();
 
     if (tableSubcommand === "show") {
-      const tableName = tableArgs.join(" ");
+      const tableName = tableArgs.join(" ").toLowerCase();
+      if (tableName === "all") {
+        const tableNames = getSortedTables();
+        if (tableNames.length === 0) {
+          await message.reply("No tables exist yet. Create one with `!timer create table <name>`.");
+          return;
+        }
+
+        await message.reply([
+          "**All Tables**",
+          ...tableNames.map((table) => `- ${table.name}`),
+        ].join("\n"));
+        return;
+      }
       await showTable(message, tableName);
       return;
     }
@@ -989,21 +1001,7 @@ client.on("messageCreate", async (message) => {
       return;
     }
 
-    if (tableSubcommand === "all") {
-      const tableNames = getSortedTables();
-      if (tableNames.length === 0) {
-        await message.reply("No tables exist yet. Create one with `!timer create table <name>`.");
-        return;
-      }
-
-      await message.reply([
-        "**All Tables**",
-        ...tableNames.map((table) => `- ${table.name}`),
-      ].join("\n"));
-      return;
-    }
-
-    await message.reply("Unknown table command. Use `!timer table show <name>`, `!timer table list`, or `!timer table all`.");
+    await message.reply("Unknown table command. Use `!timer table show <name>`, `!timer table show all`, or `!timer table list`.");
     return;
   }
 
@@ -1261,4 +1259,6 @@ if (require.main === module) {
 
 module.exports = {
   client,
+  backupTablesSnapshot,
+  scheduleNightlyTableBackup,
 };

@@ -23,6 +23,8 @@ const PREFIX = "!challenge";
 const GAMES_FILE = path.join(__dirname, "games.json");
 const STATE_FILE = path.join(__dirname, "challenge-state.json");
 const CHALLENGE_CATALOG_FILE = path.join(__dirname, "challenge-catalog.json");
+const CHALLENGE_TABLES_FILE = path.join(__dirname, "challenge-tables.json");
+const CHALLENGE_TABLE_BACKUP_DIR = path.join(__dirname, "..", "backups", "challenges");
 
 if (require.main === module && !TOKEN) {
   console.error("Missing DISCORD_TOKEN in environment.");
@@ -376,9 +378,297 @@ function formatChallengeList(title, challenges) {
   ].join("\n");
 }
 
+function stripOuterQuotes(input) {
+  const value = String(input || "").trim();
+  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+    return value.slice(1, -1).trim();
+  }
+  return value;
+}
+
+function chunkLines(lines, maxChars = 1800) {
+  const chunks = [];
+  let current = [];
+  let currentLength = 0;
+
+  for (const line of lines) {
+    const lineLength = line.length + (current.length > 0 ? 1 : 0);
+    if (currentLength + lineLength > maxChars && current.length > 0) {
+      chunks.push(current.join("\n"));
+      current = [line];
+      currentLength = line.length;
+    } else {
+      current.push(line);
+      currentLength += lineLength;
+    }
+  }
+
+  if (current.length > 0) {
+    chunks.push(current.join("\n"));
+  }
+
+  return chunks;
+}
+
+function formatStatsLine(label, value) {
+  return `- **${label}:** ${value}`;
+}
+
+function sanitizeTableName(input) {
+  const value = String(input || "").trim();
+  if (!value) {
+    return null;
+  }
+  return value.slice(0, 60);
+}
+
+function loadChallengeTables() {
+  if (!fs.existsSync(CHALLENGE_TABLES_FILE)) {
+    return { tables: {} };
+  }
+
+  try {
+    const raw = fs.readFileSync(CHALLENGE_TABLES_FILE, "utf8");
+    const data = JSON.parse(raw);
+    const sourceTables = data && typeof data.tables === "object" && data.tables !== null ? data.tables : {};
+    const tables = {};
+
+    for (const [name, table] of Object.entries(sourceTables)) {
+      const normalizedName = sanitizeTableName(name);
+      if (!normalizedName) {
+        continue;
+      }
+
+      const challenges = Array.isArray(table?.challenges)
+        ? table.challenges.filter((challenge) => challenge && typeof challenge === "object")
+        : [];
+
+      tables[normalizedName] = {
+        name: normalizedName,
+        createdAtMs: Number.isFinite(table?.createdAtMs) ? table.createdAtMs : Date.now(),
+        challenges,
+      };
+    }
+
+    return { tables };
+  } catch {
+    return { tables: {} };
+  }
+}
+
+function saveChallengeTables(tableStore) {
+  fs.writeFileSync(CHALLENGE_TABLES_FILE, JSON.stringify(tableStore, null, 2));
+}
+
+function formatBackupDate(date) {
+  const year = String(date.getFullYear());
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function backupChallengeTablesSnapshot() {
+  try {
+    if (!fs.existsSync(CHALLENGE_TABLES_FILE)) {
+      return false;
+    }
+
+    fs.mkdirSync(CHALLENGE_TABLE_BACKUP_DIR, { recursive: true });
+
+    const backupDate = formatBackupDate(new Date());
+    const backupFile = path.join(CHALLENGE_TABLE_BACKUP_DIR, `challenge-tables-${backupDate}.json`);
+    const source = fs.readFileSync(CHALLENGE_TABLES_FILE, "utf8");
+    fs.writeFileSync(backupFile, source);
+
+    console.log(`Backed up challenge tables to ${backupFile}`);
+    return true;
+  } catch (error) {
+    console.error("Failed to back up challenge tables:", error?.message || error);
+    return false;
+  }
+}
+
+function scheduleNightlyChallengeTableBackup() {
+  const now = new Date();
+  const nextRun = new Date(now);
+  nextRun.setHours(24, 0, 0, 0);
+
+  const delayMs = nextRun.getTime() - now.getTime();
+  const timeout = setTimeout(() => {
+    backupChallengeTablesSnapshot();
+
+    const interval = setInterval(() => {
+      backupChallengeTablesSnapshot();
+    }, 24 * 60 * 60 * 1000);
+
+    if (typeof interval.unref === "function") {
+      interval.unref();
+    }
+  }, delayMs);
+
+  if (typeof timeout.unref === "function") {
+    timeout.unref();
+  }
+}
+
+function getChallengeTableKey(input) {
+  const value = sanitizeTableName(input);
+  return value ? value.toLowerCase() : null;
+}
+
+function getChallengeTableStore() {
+  return challengeTables;
+}
+
+function getChallengeTableByName(tableName) {
+  const key = getChallengeTableKey(tableName);
+  if (!key) {
+    return null;
+  }
+
+  const store = getChallengeTableStore().tables;
+  if (store[key]) {
+    return store[key];
+  }
+
+  for (const table of Object.values(store)) {
+    if (typeof table?.name === "string" && table.name.toLowerCase() === key) {
+      return table;
+    }
+  }
+
+  return null;
+}
+
+function addChallengeToTable(tableName, challenge) {
+  const key = getChallengeTableKey(tableName);
+  if (!key || !challenge) {
+    return { ok: false, reason: "invalid" };
+  }
+
+  const store = getChallengeTableStore().tables;
+  const table = getChallengeTableByName(tableName);
+  if (!table) {
+    return { ok: false, reason: "missing" };
+  }
+
+  table.challenges.push({
+    id: challenge.id,
+    game: challenge.game || "Unknown",
+    mapName: challenge.mapName || "Unknown",
+    difficulty: challenge.difficulty || "Unknown",
+    playerCount: Number.isFinite(challenge.playerCount) ? challenge.playerCount : 0,
+    globalChallengeCount: Number.isFinite(challenge.globalChallengeCount) ? challenge.globalChallengeCount : 0,
+    individualChallengeCount: Number.isFinite(challenge.individualChallengeCount) ? challenge.individualChallengeCount : 0,
+    globalChallenges: Array.isArray(challenge.globalChallenges) ? challenge.globalChallenges : [],
+    playerChallenges: Array.isArray(challenge.playerChallenges) ? challenge.playerChallenges : [],
+    createdAtMs: Number.isFinite(challenge.createdAtMs) ? challenge.createdAtMs : Date.now(),
+    endedAtMs: Number.isFinite(challenge.endedAtMs) ? challenge.endedAtMs : null,
+  });
+
+  saveChallengeTables(getChallengeTableStore());
+  return { ok: true, table };
+}
+
+function removeChallengeFromTable(tableName, selector) {
+  const table = getChallengeTableByName(tableName);
+  if (!table) {
+    return { ok: false, reason: "missing" };
+  }
+
+  if (table.challenges.length === 0) {
+    return { ok: false, reason: "empty" };
+  }
+
+  const normalizedSelector = String(selector || "").trim().toLowerCase();
+  let targetIndex = -1;
+
+  if (normalizedSelector === "last") {
+    targetIndex = table.challenges.length - 1;
+  } else {
+    const parsed = Number.parseInt(normalizedSelector, 10);
+    if (!Number.isInteger(parsed) || parsed < 1 || parsed > table.challenges.length) {
+      return { ok: false, reason: "invalid" };
+    }
+    targetIndex = parsed - 1;
+  }
+
+  const removed = table.challenges.splice(targetIndex, 1)[0];
+  saveChallengeTables(getChallengeTableStore());
+  return { ok: true, removed, position: targetIndex + 1, table };
+}
+
+function deleteTable(tableName) {
+  const key = getChallengeTableKey(tableName);
+  if (!key) {
+    return { ok: false, reason: "invalid" };
+  }
+
+  const store = getChallengeTableStore().tables;
+  if (!store[key]) {
+    return { ok: false, reason: "missing" };
+  }
+
+  delete store[key];
+  saveChallengeTables(getChallengeTableStore());
+  return { ok: true };
+}
+
+function renameTable(oldName, newName) {
+  const oldKey = getChallengeTableKey(oldName);
+  const newKey = getChallengeTableKey(newName);
+  if (!oldKey || !newKey) {
+    return { ok: false, reason: "invalid" };
+  }
+
+  const store = getChallengeTableStore().tables;
+  const table = store[oldKey];
+  if (!table) {
+    return { ok: false, reason: "missing" };
+  }
+
+  if (store[newKey] && oldKey !== newKey) {
+    return { ok: false, reason: "exists" };
+  }
+
+  table.name = sanitizeTableName(newName);
+  delete store[oldKey];
+  store[newKey] = table;
+  saveChallengeTables(getChallengeTableStore());
+  return { ok: true, table };
+}
+
+function getSortedChallengesForTable(table) {
+  return [...(table?.challenges || [])].sort((left, right) => {
+    return right.createdAtMs - left.createdAtMs;
+  });
+}
+
+function getSortedChallengeTables() {
+  return Object.values(getChallengeTableStore().tables).sort((left, right) => left.name.localeCompare(right.name));
+}
+
+function getChallengeTableStats(table) {
+  const challenges = getSortedChallengesForTable(table);
+  if (challenges.length === 0) {
+    return null;
+  }
+
+  return {
+    count: challenges.length,
+    newest: challenges[0],
+    oldest: challenges[challenges.length - 1],
+  };
+}
+
+function formatChallengeRecord(challenge, index) {
+  return `${String(index + 1).padStart(2, "0")}. ${challenge.game} - ${challenge.mapName} (${challenge.difficulty}) | Players: ${challenge.playerCount} | Completed: ${new Date(challenge.createdAtMs).toISOString()}`;
+}
+
 let allowedGames = loadAllowedGames();
 let state = loadState();
 let challengeCatalog = loadChallengeCatalog();
+let challengeTables = loadChallengeTables();
 
 function registerChallengeHandlers(client) {
   client.on("messageCreate", async (message) => {
@@ -398,10 +688,18 @@ function registerChallengeHandlers(client) {
         "`!challenge games` - list allowed games",
         "`!challenge start <game> <map> <difficulty> <globalChallengeCount> <individualChallengeCount> <gamertag1,gamertag2,...>` - start an Easter Egg Run challenge",
         "`!challenge status` - show current challenge",
-        "`!challenge end` - end current challenge",
+        "`!challenge end <Complete|Failed>` - end current challenge",
+        "`!challenge create table <name>` - create a challenge table",
+        "`!challenge table show <name>` - show challenges saved in a table",
+        "`!challenge table show all` - show all table names",
+        "`!challenge table stats <name>` - show table summary stats",
+        "`!challenge table delete <name>` - delete a table",
+        "`!challenge table rename <old> <new>` - rename a table",
+        "`!challenge table remove <name> <last|index>` - remove a saved challenge from a table",
+        "`!challenge backup now` - back up challenge tables immediately",
         "",
         "Example:",
-        "`!challenge start Black Ops 3 Der Eisendrache Difficult 3 2 Merl,Alex,Sam,Chris`",
+        "`!challenge start Black Ops 3 Der Eisendrache Difficult 3 2 Merlin,Alex,Sam,Chris`",
       ].join("\n"));
       return;
     }
@@ -527,8 +825,17 @@ function registerChallengeHandlers(client) {
         return;
       }
 
+      const statusArg = (args.shift() || "").toLowerCase();
+      if (statusArg !== "complete" && statusArg !== "failed") {
+        await message.reply("Please specify `!challenge end Complete` or `!challenge end Failed`.");
+        return;
+      }
+
+      const status = statusArg === "complete" ? "Complete" : "Failed";
+
       const finished = {
         ...state.activeChallenge,
+        status,
         endedAtMs: Date.now(),
         endedByUserId: message.author.id,
       };
@@ -538,7 +845,7 @@ function registerChallengeHandlers(client) {
       saveState(state);
 
       await message.reply([
-        "**Challenge Ended**",
+        `**Challenge ${status}**`,
         formatChallenge(finished),
         "",
         formatChallengeList("Global Challenges", finished.globalChallenges || []),
@@ -547,6 +854,267 @@ function registerChallengeHandlers(client) {
         formatPlayerChallenges(finished),
         `Ended: **${new Date(finished.endedAtMs).toISOString()}**`,
       ].join("\n"));
+      return;
+    }
+
+    if (command === "create") {
+      const createSubcommand = (args.shift() || "").toLowerCase();
+      if (createSubcommand === "table") {
+        const tableName = sanitizeTableName(args.join(" "));
+        if (!tableName) {
+          await message.reply("Provide a table name. Example: `!challenge create table Black Ops 3`");
+          return;
+        }
+
+        const existing = getChallengeTableByName(tableName);
+        if (existing) {
+          await message.reply(`Table **${tableName}** already exists.`);
+          return;
+        }
+
+        const store = getChallengeTableStore().tables;
+        const key = getChallengeTableKey(tableName);
+        store[key] = {
+          name: tableName,
+          createdAtMs: Date.now(),
+          challenges: [],
+        };
+        saveChallengeTables(getChallengeTableStore());
+
+        await message.reply(`Created challenge table **${tableName}**.`);
+        return;
+      }
+
+      await message.reply("Unknown create command. Use `!challenge create table <name>`.");
+      return;
+    }
+
+    if (command === "add") {
+      const addSubcommand = (args.shift() || "").toLowerCase();
+      if (addSubcommand === "table") {
+        if (!state.activeChallenge && state.history.length === 0) {
+          await message.reply("No challenge to add. Complete or end a challenge first.");
+          return;
+        }
+
+        const tableName = sanitizeTableName(args.join(" "));
+        if (!tableName) {
+          await message.reply("Provide a table name. Example: `!challenge add table Black Ops 3`");
+          return;
+        }
+
+        const table = getChallengeTableByName(tableName);
+        if (!table) {
+          await message.reply(`Table **${tableName}** does not exist. Create it with \`!challenge create table ${tableName}\`.`);
+          return;
+        }
+
+        const lastChallenge = state.history.length > 0 ? state.history[state.history.length - 1] : null;
+        if (!lastChallenge) {
+          await message.reply("No completed challenge to add.");
+          return;
+        }
+
+        const result = addChallengeToTable(tableName, lastChallenge);
+        if (!result.ok) {
+          await message.reply("Could not add challenge to table.");
+          return;
+        }
+
+        await message.reply(`Added challenge to table **${tableName}**.`);
+        return;
+      }
+
+      await message.reply("Unknown add command. Use `!challenge add table <name>`.");
+      return;
+    }
+
+    if (command === "table") {
+      const tableArgs = remaining.split(/\s+/).filter(Boolean);
+      const tableSubcommand = (tableArgs.shift() || "").toLowerCase();
+
+      if (tableSubcommand === "show") {
+        const tableNameOrAll = tableArgs.join(" ").toLowerCase();
+        if (tableNameOrAll === "all") {
+          const tableNames = getSortedChallengeTables();
+          if (tableNames.length === 0) {
+            await message.reply("No challenge tables exist yet. Create one with `!challenge create table <name>`.");
+            return;
+          }
+
+          await message.reply([
+            "**All Challenge Tables**",
+            ...tableNames.map((table) => `- ${table.name}`),
+          ].join("\n"));
+          return;
+        }
+
+        const tableName = tableArgs.join(" ");
+        const normalizedName = sanitizeTableName(stripOuterQuotes(tableName));
+        if (!normalizedName) {
+          await message.reply("Provide a table name. Example: `!challenge table show Black Ops 3`.");
+          return;
+        }
+
+        const table = getChallengeTableByName(normalizedName);
+        if (!table) {
+          await message.reply("Table **" + normalizedName + "** does not exist. Create it with `!challenge create table " + normalizedName + "`.");
+          return;
+        }
+
+        const challenges = getSortedChallengesForTable(table);
+        if (challenges.length === 0) {
+          await message.reply(`Table **${table.name}** has no saved challenges yet.`);
+          return;
+        }
+
+        const lines = challenges.map((challenge, index) => formatChallengeRecord(challenge, index));
+        const chunks = chunkLines(lines);
+
+        for (let index = 0; index < chunks.length; index += 1) {
+          const header = index === 0
+            ? [`**Table: ${table.name}**`, `Sorted by newest first`, ""]
+            : [];
+          const content = [...header, chunks[index]].join("\n");
+
+          if (index === 0) {
+            await message.reply(content);
+          } else {
+            await message.channel.send(content);
+          }
+        }
+        return;
+      }
+
+      if (tableSubcommand === "stats") {
+        const tableName = tableArgs.join(" ");
+        const normalizedName = sanitizeTableName(stripOuterQuotes(tableName));
+
+        if (!normalizedName) {
+          await message.reply("Usage: `!challenge table stats <name>`.");
+          return;
+        }
+
+        const table = getChallengeTableByName(normalizedName);
+        if (!table) {
+          await message.reply("Table **" + normalizedName + "** was not found.");
+          return;
+        }
+
+        const stats = getChallengeTableStats(table);
+        if (!stats) {
+          await message.reply(`Table **${table.name}** has no saved challenges yet.`);
+          return;
+        }
+
+        await message.reply([
+          `**Table Stats: ${table.name}**`,
+          formatStatsLine("Saved challenges", stats.count),
+          formatStatsLine("Newest", `${stats.newest.game} - ${stats.newest.mapName}`),
+          formatStatsLine("Oldest", `${stats.oldest.game} - ${stats.oldest.mapName}`),
+        ].join("\n"));
+        return;
+      }
+
+      if (tableSubcommand === "delete") {
+        const tableName = tableArgs.join(" ");
+        const normalizedName = sanitizeTableName(stripOuterQuotes(tableName));
+
+        if (!normalizedName) {
+          await message.reply("Usage: `!challenge table delete <name>`.");
+          return;
+        }
+
+        const result = deleteTable(normalizedName);
+        if (!result.ok) {
+          if (result.reason === "missing") {
+            await message.reply(`Table **${normalizedName}** was not found.`);
+            return;
+          }
+          await message.reply("Could not delete table.");
+          return;
+        }
+
+        await message.reply(`Deleted challenge table **${normalizedName}**.`);
+        return;
+      }
+
+      if (tableSubcommand === "rename") {
+        const oldName = stripOuterQuotes((tableArgs.shift() || "").trim());
+        const newName = stripOuterQuotes(tableArgs.join(" ").trim());
+
+        if (!oldName || !newName) {
+          await message.reply("Usage: `!challenge table rename <old name> <new name>`.");
+          return;
+        }
+
+        const result = renameTable(oldName, newName);
+        if (!result.ok) {
+          if (result.reason === "missing") {
+            await message.reply(`Table **${oldName}** was not found.`);
+            return;
+          }
+          if (result.reason === "exists") {
+            await message.reply(`Table **${newName}** already exists.`);
+            return;
+          }
+          await message.reply("Could not rename table.");
+          return;
+        }
+
+        await message.reply(`Renamed table to **${result.table.name}**.`);
+        return;
+      }
+
+      if (tableSubcommand === "remove") {
+        const tableArgs2 = tableArgs.slice();
+        const selector = (tableArgs2.pop() || "").trim();
+        const tableName = tableArgs2.join(" ").trim();
+
+        if (!tableName || !selector) {
+          await message.reply("Usage: `!challenge table remove <name> <last|index>`.");
+          return;
+        }
+
+        const result = removeChallengeFromTable(tableName, selector);
+        if (!result.ok) {
+          if (result.reason === "empty") {
+            await message.reply(`Table **${tableName}** has no saved challenges.`);
+            return;
+          }
+
+          if (result.reason === "invalid") {
+            await message.reply("Provide `last` or a challenge position like `1`.");
+            return;
+          }
+
+          await message.reply(`Table **${tableName}** was not found.`);
+          return;
+        }
+
+        await message.reply(`Removed challenge from **${result.table.name}** (position ${result.position}).`);
+        return;
+      }
+
+      await message.reply("Unknown table command. Use `!challenge table show <name>`, `!challenge table show all`, or `!challenge table stats <name>`.");
+      return;
+    }
+
+    if (command === "backup") {
+      const backupSubcommand = (args.shift() || "").toLowerCase();
+
+      if (backupSubcommand !== "now") {
+        await message.reply("Usage: `!challenge backup now`.");
+        return;
+      }
+
+      const succeeded = backupChallengeTablesSnapshot();
+      if (!succeeded) {
+        await message.reply("Could not create a backup right now.");
+        return;
+      }
+
+      await message.reply("Challenge tables backed up successfully.");
       return;
     }
 
@@ -565,10 +1133,15 @@ if (require.main === module) {
     console.log(`Challenge bot logged in as ${client.user.tag}`);
   });
 
+  backupChallengeTablesSnapshot();
+  scheduleNightlyChallengeTableBackup();
+
   registerChallengeHandlers(client);
   client.login(TOKEN);
 }
 
 module.exports = {
   registerChallengeHandlers,
+  backupChallengeTablesSnapshot,
+  scheduleNightlyChallengeTableBackup,
 };
