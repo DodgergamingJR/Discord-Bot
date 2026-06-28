@@ -699,7 +699,7 @@ function registerChallengeHandlers(client) {
         "`!challenge backup now` - back up challenge tables immediately",
         "",
         "Example:",
-        "`!challenge start Black Ops 3 Der Eisendrache Difficult 3 2 Merlin,Alex,Sam,Chris`",
+        "`!challenge start Black Ops 3 Der Eisendrache Difficult 3 2 Merlin,Michael,Joe,Charlie`",
       ].join("\n"));
       return;
     }
