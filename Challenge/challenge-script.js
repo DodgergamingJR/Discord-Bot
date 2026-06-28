@@ -665,6 +665,25 @@ function formatChallengeRecord(challenge, index) {
   return `${String(index + 1).padStart(2, "0")}. ${challenge.game} - ${challenge.mapName} (${challenge.difficulty}) | Players: ${challenge.playerCount} | Completed: ${new Date(challenge.createdAtMs).toISOString()}`;
 }
 
+async function promptToAddChallengeToTable(message) {
+  const availableTables = getSortedChallengeTables();
+  if (availableTables.length === 0) {
+    await message.channel.send([
+      `${message.author}, would you like to add this challenge to a table?`,
+      "No challenge tables exist yet.",
+      "Create one with: `!challenge create table <name>`",
+      "Then add this challenge with: `!challenge add table <name>`",
+    ].join("\n"));
+    return;
+  }
+
+  await message.channel.send([
+    `${message.author}, would you like to add this challenge to a table?`,
+    "Add it with: `!challenge add table <name>`",
+    "See all table names with: `!challenge table show all`",
+  ].join("\n"));
+}
+
 let allowedGames = loadAllowedGames();
 let state = loadState();
 let challengeCatalog = loadChallengeCatalog();
@@ -690,6 +709,7 @@ function registerChallengeHandlers(client) {
         "`!challenge status` - show current challenge",
         "`!challenge end <Complete|Failed>` - end current challenge",
         "`!challenge create table <name>` - create a challenge table",
+        "`!challenge add table <name>` - add the last ended challenge to a table",
         "`!challenge table show <name>` - show challenges saved in a table",
         "`!challenge table show all` - show all table names",
         "`!challenge table stats <name>` - show table summary stats",
@@ -854,6 +874,8 @@ function registerChallengeHandlers(client) {
         formatPlayerChallenges(finished),
         `Ended: **${new Date(finished.endedAtMs).toISOString()}**`,
       ].join("\n"));
+
+      await promptToAddChallengeToTable(message);
       return;
     }
 
