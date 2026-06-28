@@ -1,0 +1,460 @@
+{
+  "version": 1,
+  "games": {
+    "Black Ops 1": {
+      "allMaps": {
+        "global": {
+          "easy": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "All players finish with a Pack-a-Punch weapon",
+            "Open Pack-a-Punch before round 20",
+            "Keep at least one self-revive in reserve"
+          ],
+          "normal": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "No one may bleed out",
+            "Open Pack-a-Punch before round 15",
+            "Team reaches round 25 before ending"
+          ],
+          "difficult": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "No more than 6 total team downs",
+            "Open Pack-a-Punch before round 12",
+            "Finish with no more than 3 perks each"
+          ],
+          "hardcore": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "No player bleed out",
+            "No more than 3 total team downs",
+            "No quick revive purchases after round 10"
+          ]
+        },
+        "individual": {
+          "easy": [
+            "Get at least 1 clutch revive",
+            "Reach 500 kills",
+            "No more than 5 downs",
+            "Buy at least 2 doors for team progress",
+            "Contribute at least 1 major Easter Egg step"
+          ],
+          "normal": [
+            "Get at least 1 clutch revive",
+            "Reach 700 kills",
+            "No more than 4 downs",
+            "Contribute at least 2 major Easter Egg steps",
+            "Hold final zombie safely at least once"
+          ],
+          "difficult": [
+            "Reach 900 kills",
+            "No more than 3 downs",
+            "Contribute at least 2 major Easter Egg steps",
+            "No self-revive use",
+            "Complete one round using only wall weapons"
+          ],
+          "hardcore": [
+            "Reach 1000 kills",
+            "No more than 2 downs",
+            "No self-revive use",
+            "Contribute at least 3 major Easter Egg steps",
+            "No perk rebuy after first down"
+          ]
+        }
+      },
+      "mapOverrides": {}
+    },
+    "Black Ops 2": {
+      "allMaps": {
+        "global": {
+          "easy": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "Open all key progression areas",
+            "At least one wonder weapon built",
+            "Reach round 25"
+          ],
+          "normal": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "Open all key progression areas before round 15",
+            "At least one wonder weapon built",
+            "Reach round 30"
+          ],
+          "difficult": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "No more than 7 team downs",
+            "Open all progression areas before round 12",
+            "Reach round 35"
+          ],
+          "hardcore": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "No player bleed out",
+            "No more than 4 team downs",
+            "No wonder weapon duplication"
+          ]
+        },
+        "individual": {
+          "easy": [
+            "Reach 600 kills",
+            "At least 1 revive",
+            "No more than 5 downs",
+            "Fund at least one team door",
+            "Contribute one objective step"
+          ],
+          "normal": [
+            "Reach 800 kills",
+            "At least 2 revives",
+            "No more than 4 downs",
+            "Contribute two objective steps",
+            "Maintain one full round without down"
+          ],
+          "difficult": [
+            "Reach 1000 kills",
+            "At least 2 revives",
+            "No more than 3 downs",
+            "Contribute two objective steps",
+            "No self-revive use"
+          ],
+          "hardcore": [
+            "Reach 1200 kills",
+            "At least 3 revives",
+            "No more than 2 downs",
+            "Contribute three objective steps",
+            "No self-revive use"
+          ]
+        }
+      },
+      "mapOverrides": {}
+    },
+    "Black Ops 3": {
+      "allMaps": {
+        "global": {
+          "easy": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "All players get Pack-a-Punch by round 15",
+            "Use all core map mechanics once",
+            "Reach round 30"
+          ],
+          "normal": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "All players get Pack-a-Punch by round 12",
+            "No more than 8 team downs",
+            "Reach round 35"
+          ],
+          "difficult": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "No more than 6 team downs",
+            "All players Pack-a-Punch by round 10",
+            "Reach round 40"
+          ],
+          "hardcore": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "No player bleed out",
+            "No more than 4 team downs",
+            "No Gobblegum Mega usage"
+          ]
+        },
+        "individual": {
+          "easy": [
+            "Reach 700 kills",
+            "At least 1 revive",
+            "No more than 5 downs",
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only"
+          ],
+          "normal": [
+            "Reach 900 kills",
+            "At least 2 revives",
+            "No more than 4 downs",
+            "Contribute two major steps",
+            "Complete two rounds without taking a down"
+          ],
+          "difficult": [
+            "Reach 1100 kills",
+            "At least 2 revives",
+            "No more than 3 downs",
+            "Contribute two major steps",
+            "No self-revive use"
+          ],
+          "hardcore": [
+            "Reach 1300 kills",
+            "At least 3 revives",
+            "No more than 2 downs",
+            "Contribute three major steps",
+            "No self-revive or Mega Gobblegum use"
+          ]
+        }
+      },
+      "mapOverrides": {}
+    },
+    "Black Ops 4": {
+      "allMaps": {
+        "global": {
+          "easy": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "Open all essential routes",
+            "At least one specialist upgrade used by each player",
+            "Reach round 30"
+          ],
+          "normal": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "Open all essential routes before round 15",
+            "No more than 8 team downs",
+            "Reach round 35"
+          ],
+          "difficult": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "No more than 6 team downs",
+            "Open all essential routes before round 12",
+            "Reach round 40"
+          ],
+          "hardcore": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "No player bleed out",
+            "No more than 4 team downs",
+            "No specialist spam in boss fight"
+          ]
+        },
+        "individual": {
+          "easy": [
+            "Reach 700 kills",
+            "At least 1 revive",
+            "No more than 5 downs",
+            "Contribute one major step",
+            "Use specialist to save teammate at least once"
+          ],
+          "normal": [
+            "Reach 900 kills",
+            "At least 2 revives",
+            "No more than 4 downs",
+            "Contribute two major steps",
+            "Stay alive for 10 consecutive rounds"
+          ],
+          "difficult": [
+            "Reach 1100 kills",
+            "At least 2 revives",
+            "No more than 3 downs",
+            "Contribute two major steps",
+            "No self-revive use"
+          ],
+          "hardcore": [
+            "Reach 1300 kills",
+            "At least 3 revives",
+            "No more than 2 downs",
+            "Contribute three major steps",
+            "No self-revive use"
+          ]
+        }
+      },
+      "mapOverrides": {}
+    },
+    "Black Ops Cold War": {
+      "allMaps": {
+        "global": {
+          "easy": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "All players get Pack-a-Punch by round 15",
+            "Complete all required side setup steps",
+            "Reach round 30"
+          ],
+          "normal": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "All players get Pack-a-Punch by round 12",
+            "No more than 8 team downs",
+            "Reach round 35"
+          ],
+          "difficult": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "No more than 6 team downs",
+            "All players get triple Pack-a-Punch by round 25",
+            "Reach round 40"
+          ],
+          "hardcore": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "No player bleed out",
+            "No more than 4 team downs",
+            "No support streak purchases in boss phase"
+          ]
+        },
+        "individual": {
+          "easy": [
+            "Reach 800 kills",
+            "At least 1 revive",
+            "No more than 5 downs",
+            "Contribute one major step",
+            "Buy at least one armor tier upgrade"
+          ],
+          "normal": [
+            "Reach 1000 kills",
+            "At least 2 revives",
+            "No more than 4 downs",
+            "Contribute two major steps",
+            "Stay alive for 10 consecutive rounds"
+          ],
+          "difficult": [
+            "Reach 1200 kills",
+            "At least 2 revives",
+            "No more than 3 downs",
+            "Contribute two major steps",
+            "No self-revive use"
+          ],
+          "hardcore": [
+            "Reach 1400 kills",
+            "At least 3 revives",
+            "No more than 2 downs",
+            "Contribute three major steps",
+            "No self-revive or scorestreak support"
+          ]
+        }
+      },
+      "mapOverrides": {}
+    },
+    "Black Ops 6": {
+      "allMaps": {
+        "global": {
+          "easy": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "All players reach full setup stage",
+            "Open all required routes",
+            "Reach round 30"
+          ],
+          "normal": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "All players reach full setup before round 20",
+            "No more than 8 team downs",
+            "Reach round 35"
+          ],
+          "difficult": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "No more than 6 team downs",
+            "All players reach full setup before round 18",
+            "Reach round 40"
+          ],
+          "hardcore": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "No player bleed out",
+            "No more than 4 team downs",
+            "No bailout consumable usage"
+          ]
+        },
+        "individual": {
+          "easy": [
+            "Reach 900 kills",
+            "At least 1 revive",
+            "No more than 5 downs",
+            "Contribute one major step",
+            "Perform one support action for team objective"
+          ],
+          "normal": [
+            "Reach 1100 kills",
+            "At least 2 revives",
+            "No more than 4 downs",
+            "Contribute two major steps",
+            "Stay alive for 10 consecutive rounds"
+          ],
+          "difficult": [
+            "Reach 1300 kills",
+            "At least 2 revives",
+            "No more than 3 downs",
+            "Contribute two major steps",
+            "No self-revive use"
+          ],
+          "hardcore": [
+            "Reach 1500 kills",
+            "At least 3 revives",
+            "No more than 2 downs",
+            "Contribute three major steps",
+            "No self-revive or bailout consumable"
+          ]
+        }
+      },
+      "mapOverrides": {}
+    },
+    "Black Ops 7": {
+      "allMaps": {
+        "global": {
+          "easy": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "All players complete core setup",
+            "Open all required routes",
+            "Reach round 30"
+          ],
+          "normal": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "All players complete setup before round 20",
+            "No more than 8 team downs",
+            "Reach round 35"
+          ],
+          "difficult": [
+            "Complete the Easter Egg",
+            "No player bleed out",
+            "No more than 6 team downs",
+            "All players complete setup before round 18",
+            "Reach round 40"
+          ],
+          "hardcore": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "No player bleed out",
+            "No more than 4 team downs",
+            "No bailout consumable usage"
+          ]
+        },
+        "individual": {
+          "easy": [
+            "Reach 900 kills",
+            "At least 1 revive",
+            "No more than 5 downs",
+            "Contribute one major step",
+            "Perform one support action for team objective"
+          ],
+          "normal": [
+            "Reach 1100 kills",
+            "At least 2 revives",
+            "No more than 4 downs",
+            "Contribute two major steps",
+            "Stay alive for 10 consecutive rounds"
+          ],
+          "difficult": [
+            "Reach 1300 kills",
+            "At least 2 revives",
+            "No more than 3 downs",
+            "Contribute two major steps",
+            "No self-revive use"
+          ],
+          "hardcore": [
+            "Reach 1500 kills",
+            "At least 3 revives",
+            "No more than 2 downs",
+            "Contribute three major steps",
+            "No self-revive or bailout consumable"
+          ]
+        }
+      },
+      "mapOverrides": {}
+    }
+  }
+}
