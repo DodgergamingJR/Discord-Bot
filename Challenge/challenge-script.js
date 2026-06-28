@@ -464,7 +464,11 @@ function formatBackupDate(date) {
   const year = String(date.getFullYear());
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+  const milliseconds = String(date.getMilliseconds()).padStart(3, "0");
+  return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}-${milliseconds}`;
 }
 
 function backupChallengeTablesSnapshot() {
@@ -476,7 +480,12 @@ function backupChallengeTablesSnapshot() {
     fs.mkdirSync(CHALLENGE_TABLE_BACKUP_DIR, { recursive: true });
 
     const backupDate = formatBackupDate(new Date());
-    const backupFile = path.join(CHALLENGE_TABLE_BACKUP_DIR, `challenge-tables-${backupDate}.json`);
+    let backupFile = path.join(CHALLENGE_TABLE_BACKUP_DIR, `challenge-tables-${backupDate}.json`);
+    let suffix = 1;
+    while (fs.existsSync(backupFile)) {
+      backupFile = path.join(CHALLENGE_TABLE_BACKUP_DIR, `challenge-tables-${backupDate}-${suffix}.json`);
+      suffix += 1;
+    }
     const source = fs.readFileSync(CHALLENGE_TABLES_FILE, "utf8");
     fs.writeFileSync(backupFile, source);
 
@@ -569,6 +578,7 @@ function addChallengeToTable(tableName, challenge) {
   });
 
   saveChallengeTables(getChallengeTableStore());
+  backupChallengeTablesSnapshot();
   return { ok: true, table };
 }
 
