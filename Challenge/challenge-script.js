@@ -24,7 +24,7 @@ const GAMES_FILE = path.join(__dirname, "games.json");
 const STATE_FILE = path.join(__dirname, "challenge-state.json");
 const CHALLENGE_CATALOG_FILE = path.join(__dirname, "challenge-catalog.json");
 
-if (!TOKEN) {
+if (require.main === module && !TOKEN) {
   console.error("Missing DISCORD_TOKEN in environment.");
   process.exit(1);
 }
@@ -315,195 +315,208 @@ function formatChallengeList(title, challenges) {
   ].join("\n");
 }
 
-const client = new Client({ intents: intentsArray });
-
 let allowedGames = loadAllowedGames();
 let state = loadState();
 let challengeCatalog = loadChallengeCatalog();
 
-client.on("ready", () => {
-  console.log(`Challenge bot logged in as ${client.user.tag}`);
-});
+function registerChallengeHandlers(client) {
+  client.on("messageCreate", async (message) => {
+    if (message.author.bot) return;
 
-client.on("messageCreate", async (message) => {
-  if (message.author.bot) return;
+    const content = message.content.trim();
+    if (!content.toLowerCase().startsWith(PREFIX)) return;
 
-  const content = message.content.trim();
-  if (!content.toLowerCase().startsWith(PREFIX)) return;
+    const body = content.slice(PREFIX.length).trim();
+    const args = body.split(/\s+/).filter(Boolean);
+    const command = (args.shift() || "help").toLowerCase();
+    const remaining = body.slice(command.length).trim();
 
-  const body = content.slice(PREFIX.length).trim();
-  const args = body.split(/\s+/).filter(Boolean);
-  const command = (args.shift() || "help").toLowerCase();
-  const remaining = body.slice(command.length).trim();
-
-  if (command === "help") {
-    await message.reply([
-      "**Challenge commands**",
-      "`!challenge games` - list allowed games",
-      "`!challenge start <game> <map> <difficulty> <playerCount> <gamertag1,gamertag2,...>` - start an Easter Egg Run challenge",
-      "`!challenge status` - show current challenge",
-      "`!challenge end` - end current challenge",
-      "",
-      "Example:",
-      "`!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`",
-    ].join("\n"));
-    return;
-  }
-
-  if (command === "games") {
-    allowedGames = loadAllowedGames();
-    if (allowedGames.length === 0) {
-      await message.reply("No games configured. Update `Challenge/games.json`.");
-      return;
-    }
-
-    await message.reply([
-      "**Allowed Games**",
-      ...allowedGames.map((game) => `- ${game}`),
-    ].join("\n"));
-    return;
-  }
-
-  if (command === "status") {
-    if (!state.activeChallenge) {
-      await message.reply("No active challenge right now.");
-      return;
-    }
-
-    await message.reply([
-      "**Active Challenge**",
-      "**Global Challenge**",
-      formatChallenge(state.activeChallenge),
-      formatChallengeList("Global Challenge Pool", state.activeChallenge.globalChallenges || []),
-      formatChallengeList("Individual Challenge Pool", state.activeChallenge.individualChallenges || []),
-      "**Per-Player Challenges**",
-      formatPlayerChallenges(state.activeChallenge),
-      `Started: **${new Date(state.activeChallenge.createdAtMs).toISOString()}**`,
-    ].join("\n"));
-    return;
-  }
-
-  if (command === "start") {
-    if (state.activeChallenge) {
+    if (command === "help") {
       await message.reply([
-        "An Easter Egg Run challenge is already active.",
-        formatChallenge(state.activeChallenge),
-        "Use `!challenge end` before starting another.",
+        "**Challenge commands**",
+        "`!challenge games` - list allowed games",
+        "`!challenge start <game> <map> <difficulty> <playerCount> <gamertag1,gamertag2,...>` - start an Easter Egg Run challenge",
+        "`!challenge status` - show current challenge",
+        "`!challenge end` - end current challenge",
+        "",
+        "Example:",
+        "`!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`",
       ].join("\n"));
       return;
     }
 
-    allowedGames = loadAllowedGames();
-    challengeCatalog = loadChallengeCatalog();
-    const parsed = parseStartInput(remaining, allowedGames);
-
-    if (!parsed.ok) {
-      if (parsed.reason === "game") {
-        await message.reply("Invalid game. Use `!challenge games` to see valid options.");
+    if (command === "games") {
+      allowedGames = loadAllowedGames();
+      if (allowedGames.length === 0) {
+        await message.reply("No games configured. Update `Challenge/games.json`.");
         return;
       }
 
-      if (parsed.reason === "format") {
-        await message.reply("Please include map, difficulty, player count, and gamertags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
-        return;
-      }
-
-      if (parsed.reason === "count") {
-        await message.reply("Please include a valid player count before gamertags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
-        return;
-      }
-
-      if (parsed.reason === "map") {
-        await message.reply("Please include a map name. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
-        return;
-      }
-
-      if (parsed.reason === "difficulty") {
-        await message.reply("Please include a difficulty. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
-        return;
-      }
-
-      if (parsed.reason === "tags") {
-        await message.reply("Please include gamer tags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
-        return;
-      }
-
-      if (parsed.reason === "mismatch") {
-        await message.reply(`Player count is ${parsed.playerCount}, but you provided ${parsed.countProvided} gamertag(s).`);
-        return;
-      }
-
-      await message.reply("Could not parse challenge start command.");
+      await message.reply([
+        "**Allowed Games**",
+        ...allowedGames.map((game) => `- ${game}`),
+      ].join("\n"));
       return;
     }
 
-    const pools = getChallengePools(challengeCatalog, parsed.game, parsed.mapName, parsed.difficulty);
+    if (command === "status") {
+      if (!state.activeChallenge) {
+        await message.reply("No active challenge right now.");
+        return;
+      }
 
-    state.activeChallenge = {
-      id: `${Date.now()}`,
-      challengeType: "Easter Egg Run",
-      game: parsed.game,
-      mapName: parsed.mapName,
-      difficulty: parsed.difficulty,
-      playerCount: parsed.playerCount,
-      gamertags: parsed.gamertags,
-      globalChallenges: pools.global,
-      individualChallenges: pools.individual,
-      playerChallenges: parsed.gamertags.map((tag) => ({
-        gamertag: tag,
+      await message.reply([
+        "**Active Challenge**",
+        "**Global Challenge**",
+        formatChallenge(state.activeChallenge),
+        formatChallengeList("Global Challenge Pool", state.activeChallenge.globalChallenges || []),
+        formatChallengeList("Individual Challenge Pool", state.activeChallenge.individualChallenges || []),
+        "**Per-Player Challenges**",
+        formatPlayerChallenges(state.activeChallenge),
+        `Started: **${new Date(state.activeChallenge.createdAtMs).toISOString()}**`,
+      ].join("\n"));
+      return;
+    }
+
+    if (command === "start") {
+      if (state.activeChallenge) {
+        await message.reply([
+          "An Easter Egg Run challenge is already active.",
+          formatChallenge(state.activeChallenge),
+          "Use `!challenge end` before starting another.",
+        ].join("\n"));
+        return;
+      }
+
+      allowedGames = loadAllowedGames();
+      challengeCatalog = loadChallengeCatalog();
+      const parsed = parseStartInput(remaining, allowedGames);
+
+      if (!parsed.ok) {
+        if (parsed.reason === "game") {
+          await message.reply("Invalid game. Use `!challenge games` to see valid options.");
+          return;
+        }
+
+        if (parsed.reason === "format") {
+          await message.reply("Please include map, difficulty, player count, and gamertags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
+          return;
+        }
+
+        if (parsed.reason === "count") {
+          await message.reply("Please include a valid player count before gamertags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
+          return;
+        }
+
+        if (parsed.reason === "map") {
+          await message.reply("Please include a map name. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
+          return;
+        }
+
+        if (parsed.reason === "difficulty") {
+          await message.reply("Please include a difficulty. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
+          return;
+        }
+
+        if (parsed.reason === "tags") {
+          await message.reply("Please include gamer tags. Example: `!challenge start Black Ops 3 Der Eisendrache Difficult 4 Merl,Alex,Sam,Chris`");
+          return;
+        }
+
+        if (parsed.reason === "mismatch") {
+          await message.reply(`Player count is ${parsed.playerCount}, but you provided ${parsed.countProvided} gamertag(s).`);
+          return;
+        }
+
+        await message.reply("Could not parse challenge start command.");
+        return;
+      }
+
+      const pools = getChallengePools(challengeCatalog, parsed.game, parsed.mapName, parsed.difficulty);
+
+      state.activeChallenge = {
+        id: `${Date.now()}`,
         challengeType: "Easter Egg Run",
         game: parsed.game,
         mapName: parsed.mapName,
         difficulty: parsed.difficulty,
-        challenges: pools.individual,
-      })),
-      createdByUserId: message.author.id,
-      createdAtMs: Date.now(),
-    };
-    saveState(state);
+        playerCount: parsed.playerCount,
+        gamertags: parsed.gamertags,
+        globalChallenges: pools.global,
+        individualChallenges: pools.individual,
+        playerChallenges: parsed.gamertags.map((tag) => ({
+          gamertag: tag,
+          challengeType: "Easter Egg Run",
+          game: parsed.game,
+          mapName: parsed.mapName,
+          difficulty: parsed.difficulty,
+          challenges: pools.individual,
+        })),
+        createdByUserId: message.author.id,
+        createdAtMs: Date.now(),
+      };
+      saveState(state);
 
-    await message.reply([
-      "**Challenge Started**",
-      "**Global Challenge**",
-      formatChallenge(state.activeChallenge),
-      formatChallengeList("Global Challenge Pool", state.activeChallenge.globalChallenges || []),
-      formatChallengeList("Individual Challenge Pool", state.activeChallenge.individualChallenges || []),
-      "**Per-Player Challenges**",
-      formatPlayerChallenges(state.activeChallenge),
-    ].join("\n"));
-    return;
-  }
-
-  if (command === "end") {
-    if (!state.activeChallenge) {
-      await message.reply("No active challenge to end.");
+      await message.reply([
+        "**Challenge Started**",
+        "**Global Challenge**",
+        formatChallenge(state.activeChallenge),
+        formatChallengeList("Global Challenge Pool", state.activeChallenge.globalChallenges || []),
+        formatChallengeList("Individual Challenge Pool", state.activeChallenge.individualChallenges || []),
+        "**Per-Player Challenges**",
+        formatPlayerChallenges(state.activeChallenge),
+      ].join("\n"));
       return;
     }
 
-    const finished = {
-      ...state.activeChallenge,
-      endedAtMs: Date.now(),
-      endedByUserId: message.author.id,
-    };
+    if (command === "end") {
+      if (!state.activeChallenge) {
+        await message.reply("No active challenge to end.");
+        return;
+      }
 
-    state.history.push(finished);
-    state.activeChallenge = null;
-    saveState(state);
+      const finished = {
+        ...state.activeChallenge,
+        endedAtMs: Date.now(),
+        endedByUserId: message.author.id,
+      };
 
-    await message.reply([
-      "**Challenge Ended**",
-      "**Global Challenge**",
-      formatChallenge(finished),
-      formatChallengeList("Global Challenge Pool", finished.globalChallenges || []),
-      formatChallengeList("Individual Challenge Pool", finished.individualChallenges || []),
-      "**Per-Player Challenges**",
-      formatPlayerChallenges(finished),
-      `Ended: **${new Date(finished.endedAtMs).toISOString()}**`,
-    ].join("\n"));
-    return;
+      state.history.push(finished);
+      state.activeChallenge = null;
+      saveState(state);
+
+      await message.reply([
+        "**Challenge Ended**",
+        "**Global Challenge**",
+        formatChallenge(finished),
+        formatChallengeList("Global Challenge Pool", finished.globalChallenges || []),
+        formatChallengeList("Individual Challenge Pool", finished.individualChallenges || []),
+        "**Per-Player Challenges**",
+        formatPlayerChallenges(finished),
+        `Ended: **${new Date(finished.endedAtMs).toISOString()}**`,
+      ].join("\n"));
+      return;
+    }
+
+    await message.reply("Unknown challenge command. Use `!challenge help`.");
+  });
+}
+
+if (require.main === module) {
+  if (!TOKEN) {
+    console.error("Missing DISCORD_TOKEN in environment.");
+    process.exit(1);
   }
 
-  await message.reply("Unknown challenge command. Use `!challenge help`.");
-});
+  const client = new Client({ intents: intentsArray });
+  client.on("ready", () => {
+    console.log(`Challenge bot logged in as ${client.user.tag}`);
+  });
 
-client.login(TOKEN);
+  registerChallengeHandlers(client);
+  client.login(TOKEN);
+}
+
+module.exports = {
+  registerChallengeHandlers,
+};

@@ -34,7 +34,7 @@ const STATE_FILE = path.join(__dirname, "..", "timer-state.json");
 const TABLES_FILE = path.join(__dirname, "..", "timer-tables.json");
 const TABLE_BACKUP_DIR = path.join(__dirname, "..", "backups", "tables");
 
-if (!TOKEN) {
+if (require.main === module && !TOKEN) {
   console.error("Missing DISCORD_TOKEN in environment.");
   process.exit(1);
 }
@@ -738,7 +738,9 @@ client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
   const content = message.content.trim();
-  if (!content.toLowerCase().startsWith(PREFIX)) return;
+  const lowerContent = content.toLowerCase();
+
+  if (!lowerContent.startsWith(PREFIX)) return;
 
   const commandLine = content.slice(PREFIX.length).trim();
   const args = commandLine.split(/\s+/).filter(Boolean);
@@ -1253,4 +1255,10 @@ function handleShutdownSignal(signal) {
 process.on("SIGINT", () => handleShutdownSignal("SIGINT"));
 process.on("SIGTERM", () => handleShutdownSignal("SIGTERM"));
 
-client.login(TOKEN);
+if (require.main === module) {
+  client.login(TOKEN);
+}
+
+module.exports = {
+  client,
+};

@@ -4,10 +4,10 @@
   "description": "A Bot to help with Zombie Activities",
   "type": "commonjs",
   "scripts": {
-    "start": "node scripts/timer-script.js",
-    "dev": "node --watch scripts/timer-script.js",
+    "start": "node Main.js",
+    "dev": "node --watch Main.js",
     "script": "node scripts/run-script.js",
-    "timer-script": "node scripts/timer-script.js",
+    "timer-script": "node Timer/timer-script.js",
     "challenge-script": "node Challenge/challenge-script.js"
   },
   "engines": {
