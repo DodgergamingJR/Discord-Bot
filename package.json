@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node Main.js",
     "dev": "node --watch Main.js",
+    "start:bat": "run-the-z-crew-discord-bot.bat",
     "script": "node run-script.js",
     "timer-script": "node Timer/timer-script.js",
     "challenge-script": "node Challenge/challenge-script.js"
