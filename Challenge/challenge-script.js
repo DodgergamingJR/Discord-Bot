@@ -680,7 +680,7 @@ function formatChallengeRecord(challenge, index) {
     ? "Completed"
     : (rawStatus === "failed" ? "Failed" : "Unknown");
 
-  return `${String(index + 1).padStart(2, "0")}. ${challenge.game || "Unknown"} - ${challenge.mapName || "Unknown"} - ${challenge.difficulty || "Unknown"} - ${Number.isFinite(challenge.globalChallengeCount) ? challenge.globalChallengeCount : 0} - ${Number.isFinite(challenge.individualChallengeCount) ? challenge.individualChallengeCount : 0} - ${playerNames} - ${status}`;
+  return `${String(index + 1).padStart(2, "0")}. ${challenge.game || "Unknown"} - ${challenge.mapName || "Unknown"} - ${challenge.difficulty || "Unknown"} - ${Number.isFinite(challenge.globalChallengeCount) ? challenge.globalChallengeCount : 0} Group Challenges - ${Number.isFinite(challenge.individualChallengeCount) ? challenge.individualChallengeCount : 0} Individual Challenges - ${playerNames} - ${status}`;
 }
 
 async function promptToAddChallengeToTable(message) {
