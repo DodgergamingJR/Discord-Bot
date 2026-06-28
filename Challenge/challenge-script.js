@@ -560,6 +560,8 @@ function addChallengeToTable(tableName, challenge) {
     playerCount: Number.isFinite(challenge.playerCount) ? challenge.playerCount : 0,
     globalChallengeCount: Number.isFinite(challenge.globalChallengeCount) ? challenge.globalChallengeCount : 0,
     individualChallengeCount: Number.isFinite(challenge.individualChallengeCount) ? challenge.individualChallengeCount : 0,
+    gamertags: Array.isArray(challenge.gamertags) ? challenge.gamertags : [],
+    status: typeof challenge.status === "string" ? challenge.status : "Unknown",
     globalChallenges: Array.isArray(challenge.globalChallenges) ? challenge.globalChallenges : [],
     playerChallenges: Array.isArray(challenge.playerChallenges) ? challenge.playerChallenges : [],
     createdAtMs: Number.isFinite(challenge.createdAtMs) ? challenge.createdAtMs : Date.now(),
@@ -662,7 +664,23 @@ function getChallengeTableStats(table) {
 }
 
 function formatChallengeRecord(challenge, index) {
-  return `${String(index + 1).padStart(2, "0")}. ${challenge.game} - ${challenge.mapName} (${challenge.difficulty}) | Players: ${challenge.playerCount} | Completed: ${new Date(challenge.createdAtMs).toISOString()}`;
+  const playerNamesFromTags = Array.isArray(challenge.gamertags)
+    ? challenge.gamertags.filter((value) => typeof value === "string" && value.trim().length > 0)
+    : [];
+
+  const playerNamesFromAssignments = Array.isArray(challenge.playerChallenges)
+    ? challenge.playerChallenges
+      .map((entry) => entry && typeof entry.gamertag === "string" ? entry.gamertag.trim() : "")
+      .filter(Boolean)
+    : [];
+
+  const playerNames = (playerNamesFromTags.length > 0 ? playerNamesFromTags : playerNamesFromAssignments).join(", ") || "None";
+  const rawStatus = String(challenge.status || "Unknown").trim().toLowerCase();
+  const status = rawStatus === "complete" || rawStatus === "completed"
+    ? "Completed"
+    : (rawStatus === "failed" ? "Failed" : "Unknown");
+
+  return `${String(index + 1).padStart(2, "0")}. ${challenge.game || "Unknown"} - ${challenge.mapName || "Unknown"} - ${challenge.difficulty || "Unknown"} - ${Number.isFinite(challenge.globalChallengeCount) ? challenge.globalChallengeCount : 0} - ${Number.isFinite(challenge.individualChallengeCount) ? challenge.individualChallengeCount : 0} - ${playerNames} - ${status}`;
 }
 
 async function promptToAddChallengeToTable(message) {
@@ -707,7 +725,7 @@ function registerChallengeHandlers(client) {
         "`!challenge games` - list allowed games",
         "`!challenge start <game> <map> <difficulty> <globalChallengeCount> <individualChallengeCount> <gamertag1,gamertag2,...>` - start an Easter Egg Run challenge",
         "`!challenge status` - show current challenge",
-        "`!challenge end <Complete|Failed>` - end current challenge",
+        "`!challenge end <Completed|Failed>` - end current challenge",
         "`!challenge create table <name>` - create a challenge table",
         "`!challenge add table <name>` - add the last ended challenge to a table",
         "`!challenge table show <name>` - show challenges saved in a table",
@@ -846,12 +864,12 @@ function registerChallengeHandlers(client) {
       }
 
       const statusArg = (args.shift() || "").toLowerCase();
-      if (statusArg !== "complete" && statusArg !== "failed") {
-        await message.reply("Please specify `!challenge end Complete` or `!challenge end Failed`.");
+      if (statusArg !== "complete" && statusArg !== "completed" && statusArg !== "failed") {
+        await message.reply("Please specify `!challenge end Completed` or `!challenge end Failed`.");
         return;
       }
 
-      const status = statusArg === "complete" ? "Complete" : "Failed";
+      const status = statusArg === "failed" ? "Failed" : "Completed";
 
       const finished = {
         ...state.activeChallenge,
