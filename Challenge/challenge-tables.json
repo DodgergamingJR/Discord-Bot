@@ -1,0 +1,159 @@
+{
+  "tables": {
+    "challenges": {
+      "name": "challenges",
+      "createdAtMs": 1782609490289,
+      "challenges": [
+        {
+          "id": "1782609792947",
+          "game": "Black Ops 3",
+          "mapName": "The Giant",
+          "difficulty": "Easy",
+          "playerCount": 4,
+          "globalChallengeCount": 4,
+          "individualChallengeCount": 3,
+          "globalChallenges": [
+            "Complete the Easter Egg",
+            "No team wipe",
+            "Use all core map mechanics once",
+            "Reach round 30"
+          ],
+          "playerChallenges": [
+            {
+              "gamertag": "Charlie",
+              "assignedChallenges": [
+                "No more than 5 downs",
+                "At least 1 revive",
+                "Contribute one major step"
+              ],
+              "challenges": [
+                "No more than 5 downs",
+                "At least 1 revive",
+                "Contribute one major step"
+              ]
+            },
+            {
+              "gamertag": "Merlin",
+              "assignedChallenges": [
+                "Reach 700 kills",
+                "Contribute one major step",
+                "No more than 5 downs"
+              ],
+              "challenges": [
+                "Reach 700 kills",
+                "Contribute one major step",
+                "No more than 5 downs"
+              ]
+            },
+            {
+              "gamertag": "Micheal",
+              "assignedChallenges": [
+                "No more than 5 downs",
+                "At least 1 revive",
+                "Complete one full round with pistol or wall weapon only"
+              ],
+              "challenges": [
+                "No more than 5 downs",
+                "At least 1 revive",
+                "Complete one full round with pistol or wall weapon only"
+              ]
+            },
+            {
+              "gamertag": "Joe",
+              "assignedChallenges": [
+                "Contribute one major step",
+                "At least 1 revive",
+                "Reach 700 kills"
+              ],
+              "challenges": [
+                "Contribute one major step",
+                "At least 1 revive",
+                "Reach 700 kills"
+              ]
+            }
+          ],
+          "createdAtMs": 1782609792947,
+          "endedAtMs": 1782609798078
+        },
+        {
+          "id": "1782610157385",
+          "game": "Black Ops 4",
+          "mapName": "IX",
+          "difficulty": "Normal",
+          "playerCount": 4,
+          "globalChallengeCount": 4,
+          "individualChallengeCount": 3,
+          "gamertags": [
+            "Charlie",
+            "Merlin",
+            "Micheal",
+            "Joe"
+          ],
+          "status": "Completed",
+          "globalChallenges": [
+            "Complete the Easter Egg",
+            "Open all essential routes before round 15",
+            "No more than 8 team downs",
+            "No player bleed out"
+          ],
+          "playerChallenges": [
+            {
+              "gamertag": "Charlie",
+              "assignedChallenges": [
+                "Contribute two major steps",
+                "Stay alive for 10 consecutive rounds",
+                "At least 2 revives"
+              ],
+              "challenges": [
+                "Contribute two major steps",
+                "Stay alive for 10 consecutive rounds",
+                "At least 2 revives"
+              ]
+            },
+            {
+              "gamertag": "Merlin",
+              "assignedChallenges": [
+                "At least 2 revives",
+                "Contribute two major steps",
+                "No more than 4 downs"
+              ],
+              "challenges": [
+                "At least 2 revives",
+                "Contribute two major steps",
+                "No more than 4 downs"
+              ]
+            },
+            {
+              "gamertag": "Micheal",
+              "assignedChallenges": [
+                "Stay alive for 10 consecutive rounds",
+                "At least 2 revives",
+                "Reach 900 kills"
+              ],
+              "challenges": [
+                "Stay alive for 10 consecutive rounds",
+                "At least 2 revives",
+                "Reach 900 kills"
+              ]
+            },
+            {
+              "gamertag": "Joe",
+              "assignedChallenges": [
+                "Contribute two major steps",
+                "No more than 4 downs",
+                "Stay alive for 10 consecutive rounds"
+              ],
+              "challenges": [
+                "Contribute two major steps",
+                "No more than 4 downs",
+                "Stay alive for 10 consecutive rounds"
+              ]
+            }
+          ],
+          "createdAtMs": 1782610157385,
+          "endedAtMs": 1782610173733
+        }
+      ]
+    }
+  }
+}

@@ -1,4 +1,664 @@
 {
   "activeChallenge": null,
-  "history": []
+  "history": [
+    {
+      "id": "1782607345925",
+      "challengeType": "Easter Egg Run",
+      "game": "Black Ops 3",
+      "mapName": "The Giant",
+      "difficulty": "Easy",
+      "playerCount": 4,
+      "gamertags": [
+        "Charlie",
+        "Merlin",
+        "Micheal",
+        "Joe"
+      ],
+      "globalChallenges": [
+        "Complete the Easter Egg",
+        "No team wipe",
+        "All players get Pack-a-Punch by round 15",
+        "Use all core map mechanics once",
+        "Reach round 30"
+      ],
+      "individualChallenges": [
+        "Reach 700 kills",
+        "At least 1 revive",
+        "No more than 5 downs",
+        "Contribute one major step",
+        "Complete one full round with pistol or wall weapon only"
+      ],
+      "playerChallenges": [
+        {
+          "gamertag": "Charlie",
+          "challengeType": "Easter Egg Run",
+          "game": "Black Ops 3",
+          "mapName": "The Giant",
+          "difficulty": "Easy",
+          "challenges": [
+            "Reach 700 kills",
+            "At least 1 revive",
+            "No more than 5 downs",
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only"
+          ]
+        },
+        {
+          "gamertag": "Merlin",
+          "challengeType": "Easter Egg Run",
+          "game": "Black Ops 3",
+          "mapName": "The Giant",
+          "difficulty": "Easy",
+          "challenges": [
+            "Reach 700 kills",
+            "At least 1 revive",
+            "No more than 5 downs",
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only"
+          ]
+        },
+        {
+          "gamertag": "Micheal",
+          "challengeType": "Easter Egg Run",
+          "game": "Black Ops 3",
+          "mapName": "The Giant",
+          "difficulty": "Easy",
+          "challenges": [
+            "Reach 700 kills",
+            "At least 1 revive",
+            "No more than 5 downs",
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only"
+          ]
+        },
+        {
+          "gamertag": "Joe",
+          "challengeType": "Easter Egg Run",
+          "game": "Black Ops 3",
+          "mapName": "The Giant",
+          "difficulty": "Easy",
+          "challenges": [
+            "Reach 700 kills",
+            "At least 1 revive",
+            "No more than 5 downs",
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only"
+          ]
+        }
+      ],
+      "createdByUserId": "231843303925088256",
+      "createdAtMs": 1782607345925,
+      "endedAtMs": 1782607631857,
+      "endedByUserId": "231843303925088256"
+    },
+    {
+      "id": "1782607634481",
+      "challengeType": "Easter Egg Run",
+      "game": "Black Ops 3",
+      "mapName": "The Giant",
+      "difficulty": "Easy",
+      "playerCount": 4,
+      "globalChallengeCount": 4,
+      "gamertags": [
+        "Charlie",
+        "Merlin",
+        "Micheal",
+        "Joe"
+      ],
+      "globalChallenges": [
+        "No team wipe",
+        "All players get Pack-a-Punch by round 15",
+        "Reach round 30",
+        "Use all core map mechanics once"
+      ],
+      "individualChallenges": [
+        "Reach 700 kills",
+        "At least 1 revive",
+        "No more than 5 downs",
+        "Contribute one major step",
+        "Complete one full round with pistol or wall weapon only"
+      ],
+      "playerChallenges": [
+        {
+          "gamertag": "Charlie",
+          "assignedChallenge": "Complete one full round with pistol or wall weapon only",
+          "challenges": [
+            "Complete one full round with pistol or wall weapon only"
+          ]
+        },
+        {
+          "gamertag": "Merlin",
+          "assignedChallenge": "At least 1 revive",
+          "challenges": [
+            "At least 1 revive"
+          ]
+        },
+        {
+          "gamertag": "Micheal",
+          "assignedChallenge": "No more than 5 downs",
+          "challenges": [
+            "No more than 5 downs"
+          ]
+        },
+        {
+          "gamertag": "Joe",
+          "assignedChallenge": "Reach 700 kills",
+          "challenges": [
+            "Reach 700 kills"
+          ]
+        }
+      ],
+      "createdByUserId": "231843303925088256",
+      "createdAtMs": 1782607634481,
+      "endedAtMs": 1782607823864,
+      "endedByUserId": "231843303925088256"
+    },
+    {
+      "id": "1782607832053",
+      "challengeType": "Easter Egg Run",
+      "game": "Black Ops 3",
+      "mapName": "The Giant",
+      "difficulty": "Easy",
+      "playerCount": 4,
+      "globalChallengeCount": 4,
+      "individualChallengeCount": 3,
+      "gamertags": [
+        "Charlie",
+        "Merlin",
+        "Micheal",
+        "Joe"
+      ],
+      "globalChallenges": [
+        "All players get Pack-a-Punch by round 15",
+        "Reach round 30",
+        "No team wipe",
+        "Use all core map mechanics once"
+      ],
+      "playerChallenges": [
+        {
+          "gamertag": "Charlie",
+          "assignedChallenges": [
+            "Complete one full round with pistol or wall weapon only",
+            "Contribute one major step",
+            "At least 1 revive"
+          ],
+          "challenges": [
+            "Complete one full round with pistol or wall weapon only",
+            "Contribute one major step",
+            "At least 1 revive"
+          ]
+        },
+        {
+          "gamertag": "Merlin",
+          "assignedChallenges": [
+            "At least 1 revive",
+            "Contribute one major step",
+            "Reach 700 kills"
+          ],
+          "challenges": [
+            "At least 1 revive",
+            "Contribute one major step",
+            "Reach 700 kills"
+          ]
+        },
+        {
+          "gamertag": "Micheal",
+          "assignedChallenges": [
+            "Reach 700 kills",
+            "Complete one full round with pistol or wall weapon only",
+            "At least 1 revive"
+          ],
+          "challenges": [
+            "Reach 700 kills",
+            "Complete one full round with pistol or wall weapon only",
+            "At least 1 revive"
+          ]
+        },
+        {
+          "gamertag": "Joe",
+          "assignedChallenges": [
+            "Contribute one major step",
+            "At least 1 revive",
+            "Reach 700 kills"
+          ],
+          "challenges": [
+            "Contribute one major step",
+            "At least 1 revive",
+            "Reach 700 kills"
+          ]
+        }
+      ],
+      "createdByUserId": "231843303925088256",
+      "createdAtMs": 1782607832054,
+      "endedAtMs": 1782608113067,
+      "endedByUserId": "231843303925088256"
+    },
+    {
+      "id": "1782608123709",
+      "challengeType": "Easter Egg Run",
+      "game": "Black Ops 3",
+      "mapName": "The Giant",
+      "difficulty": "Easy",
+      "playerCount": 4,
+      "globalChallengeCount": 4,
+      "individualChallengeCount": 3,
+      "gamertags": [
+        "Charlie",
+        "Merlin",
+        "Micheal",
+        "Joe"
+      ],
+      "globalChallenges": [
+        "Use all core map mechanics once",
+        "Complete the Easter Egg",
+        "No team wipe",
+        "Reach round 30"
+      ],
+      "playerChallenges": [
+        {
+          "gamertag": "Charlie",
+          "assignedChallenges": [
+            "At least 1 revive",
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only"
+          ],
+          "challenges": [
+            "At least 1 revive",
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only"
+          ]
+        },
+        {
+          "gamertag": "Merlin",
+          "assignedChallenges": [
+            "Reach 700 kills",
+            "No more than 5 downs",
+            "Contribute one major step"
+          ],
+          "challenges": [
+            "Reach 700 kills",
+            "No more than 5 downs",
+            "Contribute one major step"
+          ]
+        },
+        {
+          "gamertag": "Micheal",
+          "assignedChallenges": [
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only",
+            "No more than 5 downs"
+          ],
+          "challenges": [
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only",
+            "No more than 5 downs"
+          ]
+        },
+        {
+          "gamertag": "Joe",
+          "assignedChallenges": [
+            "Complete one full round with pistol or wall weapon only",
+            "Reach 700 kills",
+            "At least 1 revive"
+          ],
+          "challenges": [
+            "Complete one full round with pistol or wall weapon only",
+            "Reach 700 kills",
+            "At least 1 revive"
+          ]
+        }
+      ],
+      "createdByUserId": "231843303925088256",
+      "createdAtMs": 1782608123709,
+      "endedAtMs": 1782608157973,
+      "endedByUserId": "231843303925088256"
+    },
+    {
+      "id": "1782609513233",
+      "challengeType": "Easter Egg Run",
+      "game": "Black Ops 3",
+      "mapName": "The Giant",
+      "difficulty": "Easy",
+      "playerCount": 4,
+      "globalChallengeCount": 4,
+      "individualChallengeCount": 3,
+      "gamertags": [
+        "Charlie",
+        "Merlin",
+        "Micheal",
+        "Joe"
+      ],
+      "globalChallenges": [
+        "No team wipe",
+        "Reach round 30",
+        "Use all core map mechanics once",
+        "Complete the Easter Egg"
+      ],
+      "playerChallenges": [
+        {
+          "gamertag": "Charlie",
+          "assignedChallenges": [
+            "Contribute one major step",
+            "Reach 700 kills",
+            "No more than 5 downs"
+          ],
+          "challenges": [
+            "Contribute one major step",
+            "Reach 700 kills",
+            "No more than 5 downs"
+          ]
+        },
+        {
+          "gamertag": "Merlin",
+          "assignedChallenges": [
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only",
+            "No more than 5 downs"
+          ],
+          "challenges": [
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only",
+            "No more than 5 downs"
+          ]
+        },
+        {
+          "gamertag": "Micheal",
+          "assignedChallenges": [
+            "No more than 5 downs",
+            "Reach 700 kills",
+            "At least 1 revive"
+          ],
+          "challenges": [
+            "No more than 5 downs",
+            "Reach 700 kills",
+            "At least 1 revive"
+          ]
+        },
+        {
+          "gamertag": "Joe",
+          "assignedChallenges": [
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only",
+            "No more than 5 downs"
+          ],
+          "challenges": [
+            "Contribute one major step",
+            "Complete one full round with pistol or wall weapon only",
+            "No more than 5 downs"
+          ]
+        }
+      ],
+      "createdByUserId": "231843303925088256",
+      "createdAtMs": 1782609513233,
+      "status": "Complete",
+      "endedAtMs": 1782609584226,
+      "endedByUserId": "231843303925088256"
+    },
+    {
+      "id": "1782609792947",
+      "challengeType": "Easter Egg Run",
+      "game": "Black Ops 3",
+      "mapName": "The Giant",
+      "difficulty": "Easy",
+      "playerCount": 4,
+      "globalChallengeCount": 4,
+      "individualChallengeCount": 3,
+      "gamertags": [
+        "Charlie",
+        "Merlin",
+        "Micheal",
+        "Joe"
+      ],
+      "globalChallenges": [
+        "Complete the Easter Egg",
+        "No team wipe",
+        "Use all core map mechanics once",
+        "Reach round 30"
+      ],
+      "playerChallenges": [
+        {
+          "gamertag": "Charlie",
+          "assignedChallenges": [
+            "No more than 5 downs",
+            "At least 1 revive",
+            "Contribute one major step"
+          ],
+          "challenges": [
+            "No more than 5 downs",
+            "At least 1 revive",
+            "Contribute one major step"
+          ]
+        },
+        {
+          "gamertag": "Merlin",
+          "assignedChallenges": [
+            "Reach 700 kills",
+            "Contribute one major step",
+            "No more than 5 downs"
+          ],
+          "challenges": [
+            "Reach 700 kills",
+            "Contribute one major step",
+            "No more than 5 downs"
+          ]
+        },
+        {
+          "gamertag": "Micheal",
+          "assignedChallenges": [
+            "No more than 5 downs",
+            "At least 1 revive",
+            "Complete one full round with pistol or wall weapon only"
+          ],
+          "challenges": [
+            "No more than 5 downs",
+            "At least 1 revive",
+            "Complete one full round with pistol or wall weapon only"
+          ]
+        },
+        {
+          "gamertag": "Joe",
+          "assignedChallenges": [
+            "Contribute one major step",
+            "At least 1 revive",
+            "Reach 700 kills"
+          ],
+          "challenges": [
+            "Contribute one major step",
+            "At least 1 revive",
+            "Reach 700 kills"
+          ]
+        }
+      ],
+      "createdByUserId": "231843303925088256",
+      "createdAtMs": 1782609792947,
+      "status": "Complete",
+      "endedAtMs": 1782609798078,
+      "endedByUserId": "231843303925088256"
+    },
+    {
+      "id": "1782610157385",
+      "challengeType": "Easter Egg Run",
+      "game": "Black Ops 4",
+      "mapName": "IX",
+      "difficulty": "Normal",
+      "playerCount": 4,
+      "globalChallengeCount": 4,
+      "individualChallengeCount": 3,
+      "gamertags": [
+        "Charlie",
+        "Merlin",
+        "Micheal",
+        "Joe"
+      ],
+      "globalChallenges": [
+        "Complete the Easter Egg",
+        "Open all essential routes before round 15",
+        "No more than 8 team downs",
+        "No player bleed out"
+      ],
+      "playerChallenges": [
+        {
+          "gamertag": "Charlie",
+          "assignedChallenges": [
+            "Contribute two major steps",
+            "Stay alive for 10 consecutive rounds",
+            "At least 2 revives"
+          ],
+          "challenges": [
+            "Contribute two major steps",
+            "Stay alive for 10 consecutive rounds",
+            "At least 2 revives"
+          ]
+        },
+        {
+          "gamertag": "Merlin",
+          "assignedChallenges": [
+            "At least 2 revives",
+            "Contribute two major steps",
+            "No more than 4 downs"
+          ],
+          "challenges": [
+            "At least 2 revives",
+            "Contribute two major steps",
+            "No more than 4 downs"
+          ]
+        },
+        {
+          "gamertag": "Micheal",
+          "assignedChallenges": [
+            "Stay alive for 10 consecutive rounds",
+            "At least 2 revives",
+            "Reach 900 kills"
+          ],
+          "challenges": [
+            "Stay alive for 10 consecutive rounds",
+            "At least 2 revives",
+            "Reach 900 kills"
+          ]
+        },
+        {
+          "gamertag": "Joe",
+          "assignedChallenges": [
+            "Contribute two major steps",
+            "No more than 4 downs",
+            "Stay alive for 10 consecutive rounds"
+          ],
+          "challenges": [
+            "Contribute two major steps",
+            "No more than 4 downs",
+            "Stay alive for 10 consecutive rounds"
+          ]
+        }
+      ],
+      "createdByUserId": "231843303925088256",
+      "createdAtMs": 1782610157385,
+      "status": "Completed",
+      "endedAtMs": 1782610173733,
+      "endedByUserId": "231843303925088256"
+    },
+    {
+      "id": "1786644778179",
+      "challengeType": "Easter Egg Run",
+      "game": "Black Ops 7",
+      "mapName": "Totenreich",
+      "difficulty": "Difficult",
+      "playerCount": 3,
+      "globalChallengeCount": 1,
+      "individualChallengeCount": 1,
+      "gamertags": [
+        "Merlin",
+        "Michael",
+        "Charlie"
+      ],
+      "globalChallenges": [
+        "No player bleed out"
+      ],
+      "playerChallenges": [
+        {
+          "gamertag": "Merlin",
+          "assignedChallenges": [
+            "At least 2 revives"
+          ],
+          "challenges": [
+            "At least 2 revives"
+          ]
+        },
+        {
+          "gamertag": "Michael",
+          "assignedChallenges": [
+            "Contribute two major steps"
+          ],
+          "challenges": [
+            "Contribute two major steps"
+          ]
+        },
+        {
+          "gamertag": "Charlie",
+          "assignedChallenges": [
+            "No self-revive use"
+          ],
+          "challenges": [
+            "No self-revive use"
+          ]
+        }
+      ],
+      "createdByUserId": "331515781575737344",
+      "createdAtMs": 1786644778180,
+      "status": "Failed",
+      "endedAtMs": 1786644885107,
+      "endedByUserId": "331515781575737344"
+    },
+    {
+      "id": "1786645088349",
+      "challengeType": "Easter Egg Run",
+      "game": "Black Ops 7",
+      "mapName": "Totenreich",
+      "difficulty": "Difficult",
+      "playerCount": 3,
+      "globalChallengeCount": 1,
+      "individualChallengeCount": 1,
+      "gamertags": [
+        "Merlin",
+        "Michael",
+        "Charlie"
+      ],
+      "globalChallenges": [
+        "All players complete setup before round 18"
+      ],
+      "playerChallenges": [
+        {
+          "gamertag": "Merlin",
+          "assignedChallenges": [
+            "Reach 1300 kills"
+          ],
+          "challenges": [
+            "Reach 1300 kills"
+          ]
+        },
+        {
+          "gamertag": "Michael",
+          "assignedChallenges": [
+            "Reach 1300 kills"
+          ],
+          "challenges": [
+            "Reach 1300 kills"
+          ]
+        },
+        {
+          "gamertag": "Charlie",
+          "assignedChallenges": [
+            "At least 2 revives"
+          ],
+          "challenges": [
+            "At least 2 revives"
+          ]
+        }
+      ],
+      "createdByUserId": "331515781575737344",
+      "createdAtMs": 1786645088349,
+      "status": "Failed",
+      "endedAtMs": 1786645129689,
+      "endedByUserId": "331515781575737344"
+    }
+  ]
 }

@@ -1,0 +1,341 @@
+----- Starting bot at Sun 06/28/2026  0:24:23.34 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+C:\Users\Administrator\Documents\GitHub\Discord-Bot\scripts\timer-script.js:570
+  const selectMenu = new StringSelectMenuBuilder()
+                     ^
+
+TypeError: StringSelectMenuBuilder is not a constructor
+    at createTableSelectComponents (C:\Users\Administrator\Documents\GitHub\Discord-Bot\scripts\timer-script.js:570:22)
+    at promptToAddTimerToTable (C:\Users\Administrator\Documents\GitHub\Discord-Bot\scripts\timer-script.js:640:22)
+    at Client.<anonymous> (C:\Users\Administrator\Documents\GitHub\Discord-Bot\scripts\timer-script.js:1096:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v26.4.0
+----- Bot exited (code 1) at Sun 06/28/2026  0:24:38.22 ----- 
+----- Starting bot at Sun 06/28/2026  0:24:43.21 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  0:34:53.13 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  0:43:16.40 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  0:52:13.69 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  0:56:17.95 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  1:25:33.58 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  1:26:23.81 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  1:40:35.17 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  1:46:34.77 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  1:50:02.10 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  1:55:02.10 ----- 
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  2:09:04.95 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\tables\timer-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+^C----- Starting bot at Sun 06/28/2026  2:17:35.36 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+^C----- Starting bot at Sun 06/28/2026  2:19:15.62 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+^C----- Starting bot at Sun 06/28/2026  2:23:06.48 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+----- Starting bot at Sun 06/28/2026  2:28:54.52 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+----- Starting bot at Sun 06/28/2026  2:31:16.21 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+^C----- Starting bot at Sun 06/28/2026  2:33:21.09 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28.json
+^C----- Starting bot at Sun 06/28/2026  2:47:27.72 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+^C----- Starting bot at Sun 06/28/2026  2:48:39.61 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+----- Starting bot at Sun 06/28/2026  2:50:22.23 ----- 
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+^C----- Starting bot at Sun 06/28/2026  2:50:35.97 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28.json
+Logged in as Fishy Fish Bot#4335
+^C----- Starting bot at Sun 06/28/2026  3:05:14.35 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28_03-05-15-758.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28_03-05-15-764.json
+Logged in as Fishy Fish Bot#4335
+----- Starting bot at Sun 06/28/2026  3:08:22.98 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-28_03-08-24-584.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-28_03-08-24-592.json
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-29_00-00-01-717.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-29_00-00-01-724.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-30_00-00-03-661.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-06-30_00-00-03-665.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-06-30_23-21-17-815.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-01_00-00-05-587.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-01_00-00-05-591.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-02_00-00-07-515.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-02_00-00-07-519.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-03_00-00-09-433.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-03_00-00-09-439.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-04_00-00-11-360.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-04_00-00-11-365.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-05_00-00-13-288.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-05_00-00-13-303.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-06_00-00-15-230.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-06_00-00-15-244.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-07_00-00-17-188.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-07_00-00-17-192.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-08_00-00-19-140.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-08_00-00-19-144.json
+----- Bot exited (code 1073807364) at Wed 07/08/2026  3:25:07.57 ----- 
+----- Starting bot at Wed 07/08/2026  3:25:07.74 ----- 
+----- Starting bot at Sun 07/26/2026 23:47:23.42 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-26_23-47-29-647.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-26_23-47-29-677.json
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-27_00-00-00-040.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-27_00-00-00-050.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-28_00-00-01-982.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-28_00-00-01-987.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-29_00-00-03-908.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-29_00-00-03-914.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-30_00-00-05-846.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-30_00-00-05-853.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-07-31_00-00-07-769.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-07-31_00-00-07-774.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-01_00-00-09-705.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-01_00-00-09-710.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-02_00-00-11-638.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-02_00-00-11-642.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-03_00-00-13-554.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-03_00-00-13-559.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-04_00-00-15-487.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-04_00-00-15-494.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-05_00-00-17-431.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-05_00-00-17-440.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-06_00-00-19-374.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-06_00-00-19-380.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-07_00-00-21-303.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-07_00-00-21-317.json
+----- Starting bot at Sun 08/09/2026 23:48:07.15 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-09_23-48-36-209.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-09_23-48-36-240.json
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-10_00-00-00-032.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-10_00-00-00-052.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-11_00-00-01-959.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-11_00-00-01-972.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-12_00-00-03-878.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-12_00-00-03-885.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-13_00-00-05-790.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-13_00-00-05-796.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-14_00-00-07-705.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-14_00-00-07-711.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-15_00-00-09-616.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-15_00-00-09-623.json
+----- Bot exited (code 1073807364) at Sat 08/15/2026  0:49:01.82 ----- 
+----- Starting bot at Sat 08/15/2026  0:49:01.88 ----- 
+----- Starting bot at Sat 08/15/2026  2:26:14.60 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-15_02-26-37-084.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-15_02-26-37-122.json
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-16_00-00-01-717.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-16_00-00-01-722.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-17_00-00-03-653.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-17_00-00-03-661.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-18_00-00-05-586.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-18_00-00-05-592.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-19_00-00-07-507.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-19_00-00-07-517.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-20_00-00-09-440.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-20_00-00-09-449.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-21_00-00-11-386.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-21_00-00-11-400.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-22_00-00-13-308.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-22_00-00-13-322.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-23_00-00-15-236.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-23_00-00-15-245.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-24_00-00-17-226.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-24_00-00-17-281.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-25_00-00-19-057.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-25_00-00-19-181.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-25_23-01-54-797.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-26_00-00-20-982.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-26_00-00-21-107.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-27_00-00-22-911.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-27_00-00-23-033.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-28_00-00-24-841.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-28_00-00-24-965.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-29_00-00-26-768.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-29_00-00-26-892.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-30_00-00-28-702.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-30_00-00-28-825.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-08-31_00-00-30-623.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-08-31_00-00-30-747.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-01_00-00-32-538.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-01_00-00-32-662.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-02_00-00-34-460.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-02_00-00-34-584.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-03_00-00-36-382.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-03_00-00-36-506.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-04_00-00-38-303.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-04_00-00-38-426.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-05_00-00-40-221.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-05_00-00-40-345.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-06_00-00-42-153.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-06_00-00-42-276.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-07_00-00-44-110.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-07_00-00-44-206.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-08_00-00-45-987.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-08_00-00-46-127.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-09_00-00-47-909.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-09_00-00-48-047.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-10_00-00-49-828.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-10_00-00-49-968.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-11_00-00-51-748.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-11_00-00-51-893.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-12_00-00-53-650.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-12_00-00-53-793.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-13_00-00-55-569.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-13_00-00-55-710.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-14_00-00-57-472.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-14_00-00-57-612.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-15_00-00-59-397.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-15_00-00-59-537.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-16_00-01-01-321.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-16_00-01-01-461.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-17_00-01-03-247.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-17_00-01-03-385.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-18_00-01-05-154.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-18_00-01-05-292.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-19_00-01-07-059.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-19_00-01-07-197.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-20_00-01-09-000.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-20_00-01-09-140.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-21_00-01-10-916.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-21_00-01-11-057.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-22_00-01-12-821.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-22_00-01-12-961.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-23_00-01-14-719.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-23_00-01-14-857.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-24_00-01-16-624.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-24_00-01-16-764.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-25_00-01-18-546.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-25_00-01-18-684.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-26_00-01-20-435.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-26_00-01-20-577.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-27_00-01-22-349.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-27_00-01-22-490.json
+----- Starting bot at Sun 09/27/2026 23:12:32.33 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-27_23-13-33-665.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-27_23-13-33-676.json
+Logged in as Fishy Fish Bot#4335
+----- Bot exited (code 1073807364) at Sun 09/27/2026 23:54:58.37 ----- 
+----- Starting bot at Sun 09/27/2026 23:54:58.42 ----- 
+----- Starting bot at Sun 09/27/2026 23:59:25.00 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-28_00-00-35-958.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-28_00-00-35-968.json
+Logged in as Fishy Fish Bot#4335
+----- Bot exited (code 1073807364) at Mon 09/28/2026  0:34:29.43 ----- 
+----- Starting bot at Mon 09/28/2026  0:34:29.47 ----- 
+----- Bot exited (code -1073741205) at Mon 09/28/2026  0:34:29.54 ----- 
+----- Starting bot at Mon 09/28/2026  0:34:29.55 ----- 
+----- Bot exited (code -1073741205) at Mon 09/28/2026  0:34:29.61 ----- 
+----- Starting bot at Mon 09/28/2026  0:34:29.65 ----- 
+----- Bot exited (code -1073741205) at Mon 09/28/2026  0:34:29.69 ----- 
+----- Starting bot at Mon 09/28/2026  0:34:29.74 ----- 
+----- Bot exited (code -1073741205) at Mon 09/28/2026  0:34:29.79 ----- 
+----- Starting bot at Mon 09/28/2026  0:34:29.82 ----- 
+----- Bot exited (code -1073741205) at Mon 09/28/2026  0:34:29.86 ----- 
+----- Starting bot at Mon 09/28/2026  3:58:33.80 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-28_03-58-52-209.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-28_03-58-52-221.json
+Logged in as Fishy Fish Bot#4335
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-29_00-00-01-625.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-29_00-00-01-634.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-09-30_00-00-03-559.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-09-30_00-00-03-568.json
+----- Bot exited (code 1073807364) at Wed 09/30/2026  9:29:01.01 ----- 
+----- Starting bot at Wed 09/30/2026  9:29:01.06 ----- 
+----- Starting bot at Thu 10/01/2026  2:58:46.45 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-01_02-59-11-581.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-01_02-59-11-616.json
+Logged in as Fishy Fish Bot#4335
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-02_00-00-01-682.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-02_00-00-01-707.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-03_00-00-03-640.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-03_00-00-03-670.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-04_00-00-05-541.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-04_00-00-05-571.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-05_00-00-07-452.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-05_00-00-07-480.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-06_00-00-09-355.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-06_00-00-09-386.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-07_00-00-11-256.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-07_00-00-11-284.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-08_00-00-13-147.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-08_00-00-13-176.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-09_00-00-14-761.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-09_00-00-14-790.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-10_00-00-16-706.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-10_00-00-16-736.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-11_00-00-18-831.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-11_00-00-18-857.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-12_00-00-20-712.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-12_00-00-20-755.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-13_00-00-22-570.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-13_00-00-22-613.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-14_00-00-24-502.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-14_00-00-24-550.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-15_00-00-26-412.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-15_00-00-26-455.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-16_00-00-28-405.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-16_00-00-28-446.json
+----- Starting bot at Fri 10/16/2026 11:40:57.20 ----- 
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-16_11-41-21-144.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-16_11-41-21-169.json
+Logged in as Fishy Fish Bot#4335
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-17_00-00-00-983.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-17_00-00-00-995.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-18_00-00-02-899.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-18_00-00-02-914.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-19_00-00-04-778.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-19_00-00-04-791.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-20_00-00-06-684.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-20_00-00-06-701.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-21_00-00-08-554.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-21_00-00-08-574.json
+Backed up tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Timer\timer-tables-2026-10-22_00-00-10-447.json
+Backed up challenge tables to C:\Users\Administrator\Documents\GitHub\Discord-Bot\backups\Table Backups\Challenge\challenge-tables-2026-10-22_00-00-10-476.json
